@@ -20,10 +20,12 @@ const Login = () => {
   const { user } = useAuth();
   
 
-  if(user){
-    router.push("/v2/home");
-  } 
-
+  useEffect(() => {
+    if (user) {
+      router.push("/v2/home");
+    }
+  }, [user, router]);
+  
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
