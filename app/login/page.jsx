@@ -19,6 +19,11 @@ const Login = () => {
   const router = useRouter();
   const { user } = useAuth();
   
+
+  if(user){
+    router.push("/v2/home");
+  } 
+
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
