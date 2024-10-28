@@ -20,7 +20,7 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-  const {auth} = useAuth();
+  const {user} = useAuth();
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
