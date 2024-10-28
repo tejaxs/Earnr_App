@@ -20,11 +20,11 @@ const Login = () => {
   const { user } = useAuth();
   
 
-  useEffect(() => {
-    if (user) {
-      router.push("/v2/home");
-    }
-  }, [user, router]);
+  // useEffect(() => {
+  //   if (user) {
+  //     router.push("/v2/home");
+  //   }
+  // }, [user, router]);
 
   const handleLogin = async () => {
     try {
