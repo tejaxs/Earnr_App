@@ -18,13 +18,15 @@ const Login = () => {
   const [error, setError] = useState(null);
   const router = useRouter();
   const { user } = useAuth();
-  
+  const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     router.push("/v2/home");
-  //   }
-  // }, [user, router]);
+  useEffect(() => {
+    if (user) {
+      router.push("/v2/home");
+    }else {
+      setLoading(false); // User is not signed in, stop loading
+    }
+  }, [user, router]);
 
   const handleLogin = async () => {
     try {

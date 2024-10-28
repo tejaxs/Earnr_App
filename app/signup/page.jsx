@@ -12,6 +12,7 @@ import {
 import { auth } from "../../firebase/firebaseConfig.jsx";
 import { useRouter } from "next/navigation";
 import Link from "next/link.js";
+import useAuth from "@/hooks/useAuth.jsx";
 
 const Signup = () => {
   const [name, setName] = useState(""); // State for the user's name
@@ -19,7 +20,16 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const router = useRouter();
-
+  const {auth} = useAuth();
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    if (user) {
+      router.push("/v2/home");
+    }else {
+      setLoading(false); // User is not signed in, stop loading
+    }
+  }, [user, router]);
   const handleSignUp = async () => {
     try {
       // Create a user with email and password
