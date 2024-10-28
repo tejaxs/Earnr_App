@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -25,7 +25,7 @@ const Login = () => {
       router.push("/v2/home");
     }
   }, [user, router]);
-  
+
   const handleLogin = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
