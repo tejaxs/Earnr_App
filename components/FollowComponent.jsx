@@ -34,7 +34,7 @@ const FollowComponent = ({
 
   // Function to check if user is following the creator
   const checkFollowingStatus = async (userId) => {
-    const creatorDocRef = doc(db, "Creators", creatorId);
+    const creatorDocRef = doc(db, "creators", creatorId);
     const creatorDoc = await getDoc(creatorDocRef);
 
     if (creatorDoc.exists()) {
@@ -48,7 +48,7 @@ const FollowComponent = ({
   const handleFollow = async () => {
     if (!user) return;
 
-    const creatorDocRef = doc(db, "Creators", creatorId);
+    const creatorDocRef = doc(db, "creators", creatorId);
     await updateDoc(creatorDocRef, {
       followers: arrayUnion(user.uid),
       followerCount: followerCount + 1,
@@ -61,7 +61,7 @@ const FollowComponent = ({
   const handleUnfollow = async () => {
     if (!user) return;
 
-    const creatorDocRef = doc(db, "Creators", creatorId);
+    const creatorDocRef = doc(db, "creators", creatorId);
     await updateDoc(creatorDocRef, {
       followers: arrayRemove(user.uid),
       followerCount: followerCount - 1,

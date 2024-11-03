@@ -247,7 +247,7 @@ const CreatorContent = ({ params }) => {
             </div>
             <div className="flex justify-center gap-2 mt-4">
               <FollowComponent
-                creatorId={"112"}
+                creatorId={id}
                 followerCount={followerCount}
                 setFollowerCount={setFollowerCount}
                 following={following}
