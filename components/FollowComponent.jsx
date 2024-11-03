@@ -69,7 +69,7 @@ const FollowComponent = ({
     setFollowing(false);
     setFollowerCount((prevCount) => prevCount - 1);
   };
-
+// hi
   return (
     <div className="">
       {following ? (
