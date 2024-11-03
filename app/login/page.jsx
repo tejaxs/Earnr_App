@@ -7,10 +7,11 @@ import {
   FacebookAuthProvider,
   OAuthProvider,
 } from "firebase/auth";
-import { auth } from "../../firebase/firebaseConfig.jsx";
+import { auth, db } from "../../firebase/firebaseConfig.jsx";
 import { useRouter } from "next/navigation";
 import Link from "next/link.js";
 import useAuth from "@/hooks/useAuth.jsx";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,7 +41,26 @@ const Login = () => {
   const handleGoogleSignIn = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log("ho");
+      
+      // Check if the user already exists in Firestore
+      const userDocRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userDocRef);
+  
+      if (!userDoc.exists()) {
+        // User does not exist in Firestore, so add them
+        await setDoc(userDocRef, {
+          uid: user.uid,
+          name: user.displayName || "Anonymous", // Use default if name not available
+          email: user.email,
+          profilePicture: user.photoURL || null,
+          createdAt: new Date(),
+        });
+      }
+  
+      // Redirect to home
       router.push("/v2/home");
     } catch (err) {
       setError("Google login failed: " + err.message);

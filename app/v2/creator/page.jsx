@@ -1,9 +1,11 @@
 "use client";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import withSuspense from "@/components/Suspense";
+import { db } from "@/firebase/firebaseConfig";
+import { collection, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Activity = () => {
   const router = useRouter();
@@ -11,6 +13,22 @@ const Activity = () => {
   const cat = Spara.get("cat");
   console.log(cat);
 
+
+  const [creators, setCreators] = useState([]);
+
+  useEffect(() => {
+    const creatorCollection = collection(db, "creators");
+    const getData = onSnapshot(creatorCollection, (snapshot) => {
+      const creatorData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCreators(creatorData);
+    });
+    return getData;
+  }, []);
+  
+  console.log(creators);
   const data = [
     {
       id: "1",
@@ -77,7 +95,7 @@ const Activity = () => {
             className="flex flex-wrap md:gap-12 gap-4 md:justify-center justify-evenly"
             id="carousel"
           >
-            {data.map((da, i) => (
+            {creators.map((da, i) => (
               <Link
                 href={`/v1/${da?.id}`}
                 key={i}
@@ -98,7 +116,7 @@ const Activity = () => {
                   <div>
                     {" "}
                     <img src="/instagram.svg" alt="" />
-                    <p className="text-[10px]">{da?.followers}</p>
+                    <p className="text-[10px]">{da?.InstaCount}</p>
                   </div>{" "}
                 </div>
               </Link>

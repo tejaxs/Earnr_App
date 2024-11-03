@@ -2,6 +2,10 @@
 import ActivityModal from "@/components/ActivityModal";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import withSuspense from "@/components/Suspense";
+import { db } from "@/firebase/firebaseConfig";
+import { Modal } from "@mui/material";
+import { collectionGroup, onSnapshot } from "firebase/firestore";
+import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -12,11 +16,31 @@ const Activity = () => {
   console.log(cat);
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => setOpen(false);
   const handleActivityClick = (activity) => {
     setSelectedActivity(activity);
-    
-    setIsModalOpen(true);
+    setOpen(true);
   };
+
+  const [activities, setActivities] = useState([]);
+  useEffect(() => {
+    const getActivities = onSnapshot(
+      collectionGroup(db, "activities"),
+      (snapshot) => {
+        const allActivities = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          creatorId: doc.ref.parent.parent.id,
+          ...doc.data(),
+        }));
+        setActivities(allActivities);
+      }
+    );
+    return () => getActivities();
+  }, []);
+  console.log(activities);
+  
   const data = [
     {
       c_id: "1",
@@ -57,7 +81,7 @@ const Activity = () => {
     {
       c_id: "3",
       name: "Ananya Singh",
-      icon: "/person.png",
+      icon: "/ananya.png",
       image: "/share.png",
       goal: "1000 Shares",
       reward: "50",
@@ -66,7 +90,7 @@ const Activity = () => {
     {
       c_id: "3",
       name: "Ananya Singh",
-      icon: "/person.png",
+      icon: "/ananya.png",
       image: "/like.png",
       goal: "100k likes",
       reward: "50",
@@ -75,7 +99,7 @@ const Activity = () => {
     {
       c_id: "3",
       name: "Ananya Singh",
-      icon: "/person.png",
+      icon: "/ananya.png",
       image: "/view.png",
       goal: "1M Views",
       reward: "50",
@@ -134,7 +158,7 @@ const Activity = () => {
             className="flex flex-wrap md:gap-12 gap-3 md:justify-center justify-evenly"
             id="carousel"
           >
-            {data.map((da, i) => (
+            {activities.map((da, i) => (
               <div
                 key={i}
                 onClick={() => handleActivityClick(da)}
@@ -157,7 +181,7 @@ const Activity = () => {
                       alt=""
                       className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
                     />
-                    <p className="urbanist-800 text-xs mt-1">{da?.name}</p>
+                    <p className="urbanist-800 text-xs mt-1">{da?.creatorName}</p>
                   </div>
                   <div className="pl-4 md:pb-4 pb-2">
                     <h2 className="md:text-[18px] urbanist-700">
@@ -171,22 +195,62 @@ const Activity = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
-        {selectedActivity && (
-          <ActivityModal
-            isOpen={isModalOpen}
-            onClose={() => {
-              setIsModalOpen(false);
-              setSelectedActivity(null);
+      <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          className=" flex justify-center"
+        >
+          <div
+            className="flex flex-col justify-between absolute z-10 top-10 h-5/6 bg-white text-black md:w-[350px] w-10/12 rounded-xl py-4 border-none"
+            style={{
+              backgroundImage: "url(/image.png)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
             }}
-            name={selectedActivity.name}
-            reward={selectedActivity.reward}
-            goal={selectedActivity.goal}
-            icon={selectedActivity.icon}
-            time={selectedActivity.time}
-          />
-        )}
-      </div>
+          >
+            <div className="flex justify-between m-2 p-3 bg-white rounded-3xl">
+              <div>
+                <img
+                  src={selectedActivity?.icon}
+                  alt=""
+                  className="w-[42px] h-[46px]"
+                />
+                <div className="relative">
+                  <p className="absolute -right-12 top-1 text-[14px] bg-[#FFBE4E] rounded-3xl px-8 poppins-600 m-1 ">
+                    {selectedActivity?.time}
+                  </p>
+                </div>
+              </div>
+              <div>
+                <h2 className="urbanist-700 md:text-[20px] text-[14px]">
+                  {selectedActivity?.goal}
+                </h2>
+                <p className="urbanist-500 md:text-base text-[14px]">
+                  {selectedActivity?.creatorName}
+                </p>
+              </div>
+              <div>
+                <h2 className="urbanist-700 md:text-[20px] text-[14px] text-center">
+                  {selectedActivity?.reward}
+                </h2>
+                <p className="urbanist-500 text-[14px]">Earnr Coins</p>
+              </div>
+            </div>
+
+            <div className="flex justify-center">
+              <Link
+                target="_blank"
+                href={selectedActivity?.postLink}
+                className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
+              >
+                Start Activity
+              </Link>
+            </div>
+          </div>
+        </Modal>
     </div>
     </ProtectedRoute>
   );

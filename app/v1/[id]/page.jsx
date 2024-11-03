@@ -1,9 +1,19 @@
 "use client";
 import ActivityModal from "@/components/ActivityModal";
+import FollowComponent from "@/components/FollowComponent";
 
 import Navbar from "@/components/Navbar";
 import ProtectedRoute from "@/components/ProtectedRoutes";
+import { db } from "@/firebase/firebaseConfig";
 import { Modal } from "@mui/material";
+import {
+  collection,
+  collectionGroup,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -12,10 +22,49 @@ const CreatorContent = ({ params }) => {
   const [followed, setFollowed] = useState(false);
   const { id } = params;
   const router = useRouter();
+
+  const [following, setFollowing] = useState(false);
+  const [followerCount, setFollowerCount] = useState(0);
+
   const [selectedActivity, setSelectedActivity] = useState(null);
   const handleBack = () => {
     router.back();
   };
+
+  const [creator, setCreator] = useState([]);
+
+  useEffect(() => {
+    // Use `doc` to specify the collection and the document ID
+    const creatorDoc = doc(db, "creators", id);
+
+    const getData = onSnapshot(creatorDoc, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        setCreator({ id: docSnapshot.id, ...docSnapshot.data() });
+      } else {
+        console.log("Document does not exist");
+      }
+    });
+
+    return () => getData();
+  }, []);
+
+  const [activities, setActivities] = useState([]);
+
+  useEffect(() => {
+    // Reference to the activities subcollection under the specific creator document
+    const activitiesRef = collection(db, "creators", id, "activities");
+
+    const getActivity = onSnapshot(activitiesRef, (snapshot) => {
+      const creatorActivities = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setActivities(creatorActivities);
+    });
+
+    return () => getActivity();
+  }, [id]);
+  console.log(activities);
 
   const c_data = {
     1: {
@@ -60,7 +109,7 @@ const CreatorContent = ({ params }) => {
 
   const handleActivityClick = (activity) => {
     setSelectedActivity(activity);
-    setOpen(true)
+    setOpen(true);
   };
 
   const data = [
@@ -160,7 +209,7 @@ const CreatorContent = ({ params }) => {
           <div className="flex flex-col justify-center mt-4 h-4/12">
             <div className="flex flex-col items-center justify-center">
               <img
-                src={c_data[id].image}
+                src={creator?.image}
                 alt=""
                 className="w-[120px] h-[200px]"
               />
@@ -174,53 +223,51 @@ const CreatorContent = ({ params }) => {
               </div>
             </div>
             <div className="flex flex-col justify-center items-center">
-              <h2 className="urbanist-800 text-[32px]">{c_data[id].name}</h2>
+              <h2 className="urbanist-800 text-[32px]">{creator?.name}</h2>
               <div className="flex gap-6 flex-wrap justify-center">
                 <div className="text-center">
                   <p className="poppins-600 text-[24px] text-[#FFBE4EF7]">
-                    {c_data[id].followers}
+                    {creator?.InstaCount || 0}
                   </p>
                   <p className="poppins-500 text-[10px]">Social Following</p>
                 </div>
                 <div className="text-center">
                   <p className="poppins-600 text-[24px] text-[#FFBE4EF7]">
-                    {c_data[id].giveaway}
+                    {creator?.giveaway || 0}
                   </p>
                   <p className="poppins-500 text-[10px]">Giveaway</p>
                 </div>
                 <div className="text-center">
                   <p className="poppins-600 text-[24px] text-[#FFBE4EF7]">
-                    {c_data[id].e_followers}
+                    {followerCount}
                   </p>
                   <p className="poppins-500 text-[10px]">Earnr Followers</p>
                 </div>
               </div>
             </div>
             <div className="flex justify-center gap-2 mt-4">
-              <button
-                onClick={() => setFollowed(!followed)}
-                className={`px-8 py-1 rounded-lg poppins-700 ${
-                  followed
-                    ? "bg-black   text-[#FFFFFF]"
-                    : "bg-[#FFFFFF] text-black"
-                }`}
-              >
-                {followed ? "Following" : "Follow"}
-              </button>
+              <FollowComponent
+                creatorId={"112"}
+                followerCount={followerCount}
+                setFollowerCount={setFollowerCount}
+                following={following}
+                setFollowing={setFollowing}
+              />
+
               <div
                 className={`
-                ${followed ? "bg-white" : "bg-black"} 
+                ${following ? "bg-black" : "bg-white"} 
               rounded-full p-[4px] flex justify-center items-center cursor-pointer`}
               >
-                {followed ? (
+                {following ? (
                   <img
-                    src="/shareiconblack.png"
+                    src="/shareiconwhite.png"
                     alt=""
                     className="w-[24px] h-[18px]"
                   />
                 ) : (
                   <img
-                    src="/shareiconwhite.png"
+                    src="/shareiconblack.png"
                     alt=""
                     className="w-[22px] h-[18px]"
                   />
@@ -241,46 +288,42 @@ const CreatorContent = ({ params }) => {
                 className="flex flex-wrap md:gap-12 gap-3 md:justify-center justify-evenly"
                 id="carousel"
               >
-                {data
-                  .filter((da) => da.c_id === id)
-                  .map((da, i) => (
-                    <div
-                      key={i}
-                      // ref={ButtonRef}
+                {activities.map((da, i) => (
+                  <div
+                    key={i}
+                    // ref={ButtonRef}
 
-                      onClick={()=>handleActivityClick(da)}
-                      className=" md:w-[230px] w-[130px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
-                    >
-                      <div className="relative">
-                        <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
-                          {da?.time}
-                        </p>
+                    onClick={() => handleActivityClick(da)}
+                    className=" md:w-[230px] w-[130px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
+                  >
+                    <div className="relative">
+                      <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
+                        {da?.time}
+                      </p>
+                      <img
+                        src={da?.image}
+                        alt=".."
+                        className="rounded-t-lg w-full md:h-[130px] h-[90px]"
+                      />
+                    </div>
+                    <div className=" bg-white rounded-b-lg">
+                      <div className="flex md:gap-5 gap-3">
                         <img
-                          src={da?.image}
-                          alt=".."
-                          className="rounded-t-lg w-full md:h-[130px] h-[90px]"
+                          src={da?.icon}
+                          alt=""
+                          className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
                         />
+                        <p className="urbanist-800 text-xs mt-1">{da?.creatorName}</p>
                       </div>
-                      <div className=" bg-white rounded-b-lg">
-                        <div className="flex md:gap-5 gap-3">
-                          <img
-                            src={da?.icon}
-                            alt=""
-                            className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
-                          />
-                          <p className="urbanist-800 text-xs mt-1">
-                            {da?.name}
-                          </p>
-                        </div>
-                        <div className="pl-4 md:pb-4 pb-2">
-                          <h2 className="md:text-[18px] urbanist-700">
-                            {da?.reward} Earnr Coins
-                          </h2>
-                          <p className="urbanist-500 text-[14px]">{da?.goal}</p>
-                        </div>
+                      <div className="pl-4 md:pb-4 pb-2">
+                        <h2 className="md:text-[18px] urbanist-700">
+                          {da?.reward} Earnr Coins
+                        </h2>
+                        <p className="urbanist-500 text-[14px]">{da?.goal}</p>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -310,7 +353,7 @@ const CreatorContent = ({ params }) => {
                   className="w-[42px] h-[46px]"
                 />
                 <div className="relative">
-                  <p className="absolute -right-11 top-1 text-[14px] bg-[#FFBE4E] rounded-3xl px-8 poppins-600 m-1 ">
+                  <p className="absolute -right-12 top-1 text-[14px] bg-[#FFBE4E] rounded-3xl px-8 poppins-600 m-1 ">
                     {selectedActivity?.time}
                   </p>
                 </div>
@@ -320,11 +363,11 @@ const CreatorContent = ({ params }) => {
                   {selectedActivity?.goal}
                 </h2>
                 <p className="urbanist-500 md:text-base text-[14px]">
-                  {selectedActivity?.name}
+                  {selectedActivity?.creatorName}
                 </p>
               </div>
               <div>
-                <h2 className="urbanist-700 md:text-[20px] text-[14px]">
+                <h2 className="urbanist-700 md:text-[20px] text-[14px] text-center">
                   {selectedActivity?.reward}
                 </h2>
                 <p className="urbanist-500 text-[14px]">Earnr Coins</p>
@@ -334,9 +377,7 @@ const CreatorContent = ({ params }) => {
             <div className="flex justify-center">
               <Link
                 target="_blank"
-                href={
-                  "https://www.instagram.com/reel/DA6RGRaRz8b/?igsh=MThrcDl6ZG4wemtkdw== "
-                }
+                href={selectedActivity?.postLink}
                 className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
               >
                 Start Activity

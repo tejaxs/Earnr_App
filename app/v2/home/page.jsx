@@ -1,14 +1,31 @@
 "use client";
 import ProtectedRoute from "@/components/ProtectedRoutes";
+import { db } from "@/firebase/firebaseConfig";
 import useAuth from "@/hooks/useAuth";
+import { collection, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const router = useRouter();
   const { user } = useAuth();
-  console.log(user);
+  // console.log(user.photoURL);
+  const [creators, setCreators] = useState([]);
 
+  useEffect(() => {
+    const creatorCollection = collection(db, "creators");
+    const getData = onSnapshot(creatorCollection, (snapshot) => {
+      const creatorData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCreators(creatorData);
+    });
+    return getData;
+  }, []);
+  console.log(creators);
+  
   const data = [
     {
       id: "1",
@@ -101,6 +118,7 @@ const Home = () => {
             <img
               src={user?.photoURL || "/person.png"}
               alt=""
+              
               className="relative right-2 w-[36px] h-[36px] rounded-full"
             />
           </Link>
@@ -137,7 +155,7 @@ const Home = () => {
               className="flex md:flex-wrap md:gap-12 gap-0 md:justify-center space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
               id="carousel"
             >
-              {data.map((da, i) => (
+              {creators?.map((da, i) => (
                 <Link
                   href={`/v1/${da?.id}`}
                   key={i}
@@ -158,7 +176,7 @@ const Home = () => {
                     <div>
                       {" "}
                       <img src="/instagram.svg" alt="" />
-                      <p className="text-[10px]">{da?.followers}</p>
+                      <p className="text-[10px]">{da?.InstaCount}</p>
                     </div>{" "}
                   </div>
                 </Link>
@@ -166,7 +184,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="mt-6 md:mt-12 poppins-600">
+        {/* <div className="mt-6 md:mt-12 poppins-600">
           <h2 className="text-[18px] md:text-[32px] md:text-center ">
             Become Super Earnr
           </h2>
@@ -200,18 +218,9 @@ const Home = () => {
                 </div>
               ))}
 
-              {/* <div className="flex-shrink-0 w-60 snap-center bg-white p-4 rounded-lg shadow-lg">
-                <h2 className="text-xl font-bold">Card 2</h2>
-                <p>Content for card 2.</p>
-              </div>
-
-              <div className="flex-shrink-0 w-60 snap-center bg-white p-4 rounded-lg shadow-lg">
-                <h2 className="text-xl font-bold">Card 3</h2>
-                <p>Content for card 3.</p>
-              </div> */}
             </div>
           </div>
-        </div>
+        </div> */}
         {/* <div className="mt-6 md:mt-12">
           <div className="flex justify-between items-center">
     
