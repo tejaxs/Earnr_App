@@ -46,7 +46,7 @@ const Account = () => {
             <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
               <div className="flex gap-2 items-center">
                 <div className="border-2 border-white rounded-full px-2">£</div>
-                <p>500</p>
+                <p>0</p>
               </div>
               <div>|</div>
               <div>Level 5</div>

@@ -195,7 +195,8 @@ const Activity = () => {
           </div>
         </div>
       </div>
-      <Modal
+      <ActivityModal open={open} handleClose={handleClose} selectedActivity={selectedActivity}/>
+      {/* <Modal
           open={open}
           onClose={handleClose}
           aria-labelledby="modal-modal-title"
@@ -250,7 +251,7 @@ const Activity = () => {
               </Link>
             </div>
           </div>
-        </Modal>
+        </Modal> */}
     </div>
     </ProtectedRoute>
   );

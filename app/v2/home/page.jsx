@@ -126,7 +126,7 @@ const Home = () => {
         <div className="flex justify-center w-full poppins-600">
           <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
             <div className="flex flex-col gap-2">
-              <div className="text-[40px]">0 $</div>
+              <div className="text-[40px]">0 £</div>
               <div>{user?.displayName}</div>
               <div>
                 <button className="bg-white px-2 text-[14px] rounded-[16px]  poppins-500">
