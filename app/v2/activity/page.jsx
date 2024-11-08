@@ -1,5 +1,6 @@
 "use client"
 import ActivityModal from "@/components/ActivityModal";
+import withSuspense from "@/components/Suspense";
 import { db } from "@/firebase/firebaseConfig";
 import useAuth from "@/hooks/useAuth";
 import { Modal } from "@mui/material";
@@ -152,4 +153,4 @@ const Activity = () => {
   );
 };
 
-export default Activity;
+export default withSuspense(Activity);
