@@ -1,9 +1,13 @@
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
 const Navbar = () => {
   const { user } = useAuth();
+  const pathname  = usePathname();
+  // console.log(pathname);
+  
   return (
     <div className="p-2 md:flex hidden justify-between items-center w-full">
       <Link href={"/v2/home"}>

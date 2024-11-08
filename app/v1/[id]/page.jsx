@@ -19,7 +19,6 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 const CreatorContent = ({ params }) => {
-  const [followed, setFollowed] = useState(false);
   const { id } = params;
   const router = useRouter();
 
@@ -66,44 +65,6 @@ const CreatorContent = ({ params }) => {
   }, [id]);
   console.log(activities);
 
-  const c_data = {
-    1: {
-      id: "1",
-      name: "Rohan",
-      image: "/man1.png",
-      color: "#595BD4",
-      followers: "1M+",
-      e_followers: 526,
-      giveaway: "15%",
-    },
-    2: {
-      id: "2",
-      name: "Karan Gill",
-      image: "/man2.png",
-      color: "#FC4C3F",
-      followers: "1M+",
-      e_followers: 206,
-      giveaway: "15%",
-    },
-    3: {
-      id: "3",
-      name: "Ananya Singh",
-      image: "/man3.png",
-      color: "#DCA546",
-      followers: "1M+",
-      e_followers: 1026,
-      giveaway: "15%",
-    },
-    4: {
-      id: "4",
-      name: "Priya Desai",
-      image: "/man4.png",
-      color: "#595BD4",
-      followers: "1M+",
-      e_followers: 106,
-      giveaway: "15%",
-    },
-  };
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
 
@@ -111,89 +72,6 @@ const CreatorContent = ({ params }) => {
     setSelectedActivity(activity);
     setOpen(true);
   };
-
-  const data = [
-    {
-      c_id: "1",
-      name: "Rohan",
-      icon: "/person.png",
-      image: "/comment.png",
-      goal: "5000 Comments",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "2",
-      name: "Karan Gill",
-      icon: "/person.png",
-      image: "/share.png",
-      goal: "1000 Shares",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "2",
-      name: "Karan Gill",
-      icon: "/person.png",
-      image: "/view.png",
-      goal: "1M Views",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "2",
-      name: "Karan Gill",
-      icon: "/person.png",
-      image: "/like.png",
-      goal: "100k likes",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "3",
-      name: "Ananya Singh",
-      icon: "/person.png",
-      image: "/share.png",
-      goal: "1000 Shares",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "3",
-      name: "Ananya Singh",
-      icon: "/person.png",
-      image: "/like.png",
-      goal: "100k likes",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "3",
-      name: "Ananya Singh",
-      icon: "/person.png",
-      image: "/view.png",
-      goal: "1M Views",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "4",
-      name: "Priya Desai",
-      icon: "/person.png",
-      image: "/share.png",
-      goal: "1000 Shares",
-      reward: "50",
-      time: "22:15",
-    },
-    {
-      c_id: "4",
-      icon: "/person.png",
-      image: "/like.png",
-      goal: "100k likes",
-      reward: "50",
-      time: "22:15",
-    },
-  ];
 
   return (
     <ProtectedRoute>
@@ -214,12 +92,20 @@ const CreatorContent = ({ params }) => {
                 className="w-[120px] h-[200px]"
               />
               <div className="flex md:gap-4 gap-2 relative bottom-7">
-                <div className="bg-white/30 text-white poppins-500 md:text-base text-sm  flex items-center px-2 py-1 justify-center gap-1 rounded">
+                <Link
+                  target="_blank"
+                  href={creator?.instagramId || ""}
+                  className="bg-white/30 text-white poppins-500 md:text-base text-sm  flex items-center px-2 py-1 justify-center gap-1 rounded"
+                >
                   <span className="md:text-xs text-xs">🟢</span>Instagram
-                </div>
-                <div className="bg-[#F7B84B] text-black poppins-500 md:text-base text-sm flex items-center px-2 py-1 justify-center gap-1 rounded">
+                </Link>
+                <Link
+                  target="_blank"
+                  href={creator?.youtubeId || ""}
+                  className="bg-[#F7B84B] text-black poppins-500 md:text-base text-sm flex items-center px-2 py-1 justify-center gap-1 rounded"
+                >
                   <span className="md:text-xs text-xs">⚪</span>Youtube
-                </div>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col justify-center items-center">
@@ -233,7 +119,7 @@ const CreatorContent = ({ params }) => {
                 </div>
                 <div className="text-center">
                   <p className="poppins-600 text-[24px] text-[#FFBE4EF7]">
-                    {creator?.giveaway || 0}
+                    {creator?.giveaway || 0}%
                   </p>
                   <p className="poppins-500 text-[10px]">Giveaway</p>
                 </div>
@@ -313,7 +199,9 @@ const CreatorContent = ({ params }) => {
                           alt=""
                           className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
                         />
-                        <p className="urbanist-800 text-xs mt-1">{da?.creatorName}</p>
+                        <p className="urbanist-800 text-xs mt-1">
+                          {da?.creatorName}
+                        </p>
                       </div>
                       <div className="pl-4 md:pb-4 pb-2">
                         <h2 className="md:text-[18px] urbanist-700">
@@ -328,63 +216,11 @@ const CreatorContent = ({ params }) => {
             </div>
           </div>
         </div>
-          <ActivityModal open={open} handleClose={handleClose} selectedActivity={selectedActivity}/>
-        {/* <Modal
+        <ActivityModal
           open={open}
-          onClose={handleClose}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-          className=" flex justify-center"
-        >
-          <div
-            className="flex flex-col justify-between absolute z-10 top-10 h-5/6 bg-white text-black md:w-[350px] w-10/12 rounded-xl py-4 border-none"
-            style={{
-              backgroundImage: "url(/image.png)",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="flex justify-between m-2 p-3 bg-white rounded-3xl">
-              <div>
-                <img
-                  src={selectedActivity?.icon}
-                  alt=""
-                  className="w-[42px] h-[46px]"
-                />
-                <div className="relative">
-                  <p className="absolute -right-12 top-1 text-[14px] bg-[#FFBE4E] rounded-3xl px-8 poppins-600 m-1 ">
-                    {selectedActivity?.time}
-                  </p>
-                </div>
-              </div>
-              <div>
-                <h2 className="urbanist-700 md:text-[20px] text-[14px]">
-                  {selectedActivity?.goal}
-                </h2>
-                <p className="urbanist-500 md:text-base text-[14px]">
-                  {selectedActivity?.creatorName}
-                </p>
-              </div>
-              <div>
-                <h2 className="urbanist-700 md:text-[20px] text-[14px] text-center">
-                  {selectedActivity?.reward}
-                </h2>
-                <p className="urbanist-500 text-[14px]">Earnr Coins</p>
-              </div>
-            </div>
-
-            <div className="flex justify-center">
-              <Link
-                target="_blank"
-                href={selectedActivity?.postLink}
-                className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
-              >
-                Start Activity
-              </Link>
-            </div>
-          </div>
-        </Modal> */}
+          handleClose={handleClose}
+          selectedActivity={selectedActivity}
+        />
       </div>
     </ProtectedRoute>
   );
