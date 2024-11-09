@@ -121,10 +121,10 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
             <Link
               target="_blank"
               href={selectedActivity?.postLink}
-              onClick={handleCompleteActivity}
+              onClick={handleStartActivity}
               className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
             >
-              Complete Activity
+              Started
             </Link>
           ) : isFollowing ? (
             <Link
