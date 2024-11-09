@@ -17,7 +17,7 @@ const Navbar = () => {
           alt=""
         />
       </Link>
-      <div className="flex gap-20 text-white">
+      <div className="flex gap-12 text-white">
         <Link
           href={"/v2/home"}
           className="text-[20px] hover:border-b border-white px-2 urbanist-500"

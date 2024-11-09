@@ -15,10 +15,12 @@ import {
   where,
 } from "firebase/firestore";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 
 const CreatorContent = ({ params }) => {
+
+  
   const { id } = params;
   const router = useRouter();
 
@@ -63,7 +65,7 @@ const CreatorContent = ({ params }) => {
 
     return () => getActivity();
   }, [id]);
-  console.log(activities);
+  // console.log(activities);
 
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
@@ -71,6 +73,31 @@ const CreatorContent = ({ params }) => {
   const handleActivityClick = (activity) => {
     setSelectedActivity(activity);
     setOpen(true);
+  };
+
+  const handleShareLink = async()=>{
+    const url = `${window.location.origin}${window.location.pathname}`;
+    
+    
+    if(navigator.share){
+      try {
+        await navigator.share({
+          title:"Earnr",
+          url:url,
+        })
+      } catch (error) {
+        console.log("Error Sharing");
+        
+      }
+    }else{
+      try {
+        await navigator.clipboard.writeText(url),
+        alert("url copied")
+      } catch (error) {
+        console.log("Error copying");
+        
+      }
+    }
   };
 
   return (
@@ -140,7 +167,7 @@ const CreatorContent = ({ params }) => {
                 setFollowing={setFollowing}
               />
 
-              <div
+              <div onClick={handleShareLink}
                 className={`
                 ${following ? "bg-black" : "bg-white"} 
               rounded-full p-[4px] flex justify-center items-center cursor-pointer`}
@@ -203,7 +230,7 @@ const CreatorContent = ({ params }) => {
                           {da?.creatorName}
                         </p>
                       </div>
-                      <div className="pl-4 md:pb-4 pb-2">
+                      <div className="pl-2 md:pb-4 pb-2">
                         <h2 className="md:text-[18px] urbanist-700">
                           {da?.reward} Earnr Coins
                         </h2>

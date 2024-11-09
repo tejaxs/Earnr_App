@@ -6,13 +6,13 @@ import useAuth from "@/hooks/useAuth";
 import { signOut } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Account = () => {
-  const {user} = useAuth()
-  const [value, setValue] = useState(300);
-  const minValue = 200;
-  const maxValue = 800;
+  const { user } = useAuth();
+  const [value, setValue] = useState(0);
+  const minValue = 0;
+  const maxValue = 200;
   const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
   const router = useRouter();
   const handleLogout = async () => {
@@ -26,33 +26,51 @@ const Account = () => {
   const handleBack = () => {
     router.back();
   };
-  console.log(router);
+  // console.log(router);
 
+  const [level, setLevel] = useState("Level 1");
+  useEffect(() => {
+    // Check the coin range and set level accordingly
+    if (value >= 0 && value < 200) {
+      setLevel("Level 1");
+    } else if (value >= 200 && value < 500) {
+      setLevel("Level 2");
+    } else if (value >= 500 && value <= 1000) {
+      setLevel("Level 3");
+    }
+  }, [value]);
   return (
     <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">
       <Navbar />
       <ProtectedRoute>
-        <div className="md:w-7/12 w-full">
-          <button
-            onClick={handleBack}
-            className="border border-white rounded-full p-1 m-2 md:hidden"
-          >
-            <img src="/back.png" alt="" className="w-[14px] h-[14px]" />
-          </button>
+        <div className="md:w-7/12 w-full flex flex-col flex-grow">
+          <div>
+            <button
+              onClick={handleBack}
+              className="border border-white rounded-full p-1 m-2 md:hidden"
+            >
+              <img src="/back.png" alt="" className="w-[14px] h-[14px]" />
+            </button>
+          </div>
+
           <div className="flex justify-center mt-4">
-          <img src={user?.photoURL || "/person.png"} alt="" className="relative right-2 w-[126px] h-[126px] rounded-full" />
+            <img
+              src={user?.photoURL || "/person.png"}
+              alt=""
+              className="relative right-2 w-[126px] h-[126px] rounded-full"
+            />
           </div>
           <div className="flex justify-center text-[18px] poppins-600 relative top-6">
             <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
               <div className="flex gap-2 items-center">
                 <div className="border-2 border-white rounded-full px-2">£</div>
-                <p>0</p>
+                <p>{value}</p>
               </div>
               <div>|</div>
-              <div>Level 5</div>
+              <div>{level}</div>
             </div>
           </div>
-          <div className="bg-[#1C1B19] pt-4 px-3 pb-4">
+          <div className="bg-[#1C1B19] pt-4 px-3 pb-4 flex flex-col flex-grow">
             <div className="w-full flex flex-col items-center mt-10 ">
               <input
                 type="range"
@@ -74,8 +92,11 @@ const Account = () => {
               <h2 className="poppins-600 text-[18px] text-[#CACACA]">
                 Account Settings
               </h2>
-              <div className="poppins-600 flex flex-col gap-3 mt-2">
-                <Link href={""} className="flex items-center justify-between">
+              <div className="poppins-600 flex flex-col gap-3 mt-4">
+                <Link
+                  href={"/account/edit"}
+                  className="flex items-center justify-between"
+                >
                   {" "}
                   <p>Edit Profile</p>
                   <img
@@ -85,7 +106,7 @@ const Account = () => {
                   />{" "}
                 </Link>
 
-                <Link href={""} className="flex items-center justify-between">
+                {/* <Link href={""} className="flex items-center justify-between">
                   {" "}
                   <p>Change Password</p>
                   <img
@@ -93,13 +114,13 @@ const Account = () => {
                     alt=""
                     className="w-[7px] h-[12px]"
                   />{" "}
-                </Link>
+                </Link> */}
               </div>
             </div>
             <div className="h-[1px] mt-6 w-full bg-[#CACACA]"></div>
             <div className="mt-6">
               <h2 className="poppins-600 text-[18px] text-[#CACACA]">More</h2>
-              <div className="poppins-600 flex flex-col gap-3 mt-2">
+              <div className="poppins-600 flex flex-col gap-3 mt-4">
                 <Link href={""} className="flex items-center justify-between">
                   {" "}
                   <p>About Us</p>

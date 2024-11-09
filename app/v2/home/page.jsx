@@ -4,13 +4,10 @@ import { db } from "@/firebase/firebaseConfig";
 import useAuth from "@/hooks/useAuth";
 import { collection, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Home = () => {
-  const router = useRouter();
   const { user } = useAuth();
-  // console.log(user.photoURL);
   const [creators, setCreators] = useState([]);
 
   useEffect(() => {
@@ -24,86 +21,38 @@ const Home = () => {
     });
     return getData;
   }, []);
-  console.log(creators);
-  
-  const data = [
-    {
-      id: "1",
-      name: "Rohan",
-      image: "/man1.png",
-      color: "#595BD4",
-      followers: "1M+",
-    },
 
-    {
-      id: "2",
-      name: "Karan",
-      image: "/man2.png",
-      color: "#FC4C3F",
-      followers: "1M+",
-    },
-    {
-      id: "3",
-      name: "Ananya Singh",
-      image: "/man3.png",
-      color: "#DCA546",
-      followers: "1M+",
-    },
-  ];
-  const Trendingdata = [
-    {
-      name: "Rohan",
-      image: "/man1.png",
-      color: "#595BD4",
-    },
-    {
-      name: "Karan",
-      image: "/man2.png",
-      color: "#FC4C3F",
-    },
-    {
-      name: "Tejas Patil",
-      image: "/man3.png",
-      color: "#DCA546",
-    },
-  ];
-  const sunbs = [
-    {
-      name: "Free",
-      rate: "0",
-      features: [
-        "Follow up to 3 creators",
-        "1x coins for engagement ",
-        "Withdrawal in 3-5 days",
-        "Unfollow lock : 30 days",
-      ],
-    },
-    {
-      name: "Premium",
-      rate: "29",
-      features: [
-        "Follow up to 3 creators",
-        "1x coins for engagement ",
-        "Withdrawal in 3-5 days",
-        "Unfollow lock : 30 days",
-      ],
-    },
-    {
-      name: "Premium +",
-      rate: "99",
-      features: [
-        "Follow up to 3 creators",
-        "1x coins for engagement ",
-        "Withdrawal in 3-5 days",
-        "Unfollow lock : 30 days",
-      ],
-    },
-  ];
 
+  const [coins, setCoins] = useState(0);
+  const [level, setLevel] = useState("Level 1");
+  useEffect(() => {
+    // Check the coin range and set level accordingly
+    if (coins >= 0 && coins < 200) {
+      setLevel("Level 1");
+    } else if (coins >= 200 && coins < 500) {
+      setLevel("Level 2");
+    } else if (coins >= 500 && coins <= 1000) {
+      setLevel("Level 3");
+    }
+  }, [coins]);
+
+  const carouselRef = useRef(null);
+
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -200, behavior: "smooth" });
+    }
+  };
+
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 200, behavior: "smooth" });
+    }
+  };
   return (
     <ProtectedRoute>
       <div className="px-4 py-2 text-white">
-        <div className="flex md:hidden  justify-between">
+        <div className="flex md:hidden  justify-between md:mt-0 mt-4">
           <Link
             href={"https://forms.gle/GFNgJQMgYyRnckvF6"}
             target="_blank"
@@ -123,20 +72,20 @@ const Home = () => {
             />
           </Link>
         </div>
-        <div className="flex justify-center w-full poppins-600">
+        <div className="flex justify-center w-full poppins-600 md:mt-0 mt-10">
           <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
             <div className="flex flex-col gap-2">
-              <div className="text-[40px]">0 £</div>
+              <div className="text-[40px]">{coins} ₹</div>
               <div>{user?.displayName}</div>
               <div>
                 <button className="bg-white px-2 text-[14px] rounded-[16px]  poppins-500">
-                  Level 1
+                {level}
                 </button>
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <div className="bg-[#FFD233] flex justify-center items-center w-[100px] h-[100px] rounded-full border-2 border-white shadow-xl shadow-[#3635357c]">
-                <img src="/E.png" alt=".." className="w-[30px] h-[50px]" />
+              <div className="bg-[#FFD233] text-white text-[40px] flex justify-center items-center w-[100px] h-[100px] rounded-full border-2 border-white shadow-xl shadow-[#3635357c]">
+              ₹
               </div>
 
               <button className="text-[14px] border border-black rounded-[16px]  poppins-500">
@@ -146,44 +95,60 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="mt-6 md:mt-12 poppins-600">
-          <h2 className="text-[18px] md:text-[32px] md:text-center">
-            Your Creators
-          </h2>
-          <div className="w-full overflow-hidden mt-3">
-            <div
-              className="flex md:flex-wrap md:gap-12 gap-0 md:justify-center space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-              id="carousel"
+        <div className="mt-10 md:mt-16 poppins-600 relative">
+      <h2 className="text-[18px] md:text-[32px] md:text-center">Your Creators</h2>
+
+      <div className="w-full overflow-hidden md:mt-6 mt-4 relative">
+        {/* Left scroll button */}
+        <button
+          onClick={scrollLeft}
+          className="absolute md:block hidden left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
+        >
+          &lt;
+        </button>
+
+        {/* Carousel */}
+        <div
+          className="flex space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+          id="carousel"
+          ref={carouselRef}
+        >
+          {creators?.map((da, i) => (
+            <Link
+              href={`/v1/${da?.id}`}
+              key={i}
+              className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black"
             >
-              {creators?.map((da, i) => (
-                <Link
-                  href={`/v1/${da?.id}`}
-                  key={i}
-                  className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black"
-                >
-                  <div
-                    style={{ backgroundColor: da?.color }}
-                    className={` rounded-t-lg flex justify-center`}
-                  >
-                    <img
-                      src={da?.image}
-                      alt=".."
-                      className="md:w-[130px] md:h-[220px] w-[90px] h-[160px]"
-                    />
-                  </div>
-                  <div className="flex justify-between px-2 items-center h-[50px]  text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
-                    <p className="text-left"> {da?.name}</p>
-                    <div>
-                      {" "}
-                      <img src="/instagram.svg" alt="" />
-                      <p className="text-[10px]">{da?.InstaCount}</p>
-                    </div>{" "}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
+              <div
+                style={{ backgroundColor: da?.color }}
+                className="rounded-t-lg flex justify-center"
+              >
+                <img
+                  src={da?.image}
+                  alt=".."
+                  className="md:w-[130px] md:h-[220px] w-[90px] h-[160px]"
+                />
+              </div>
+              <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
+                <p className="text-left">{da?.name}</p>
+                <div>
+                  <img src="/instagram.svg" alt="" />
+                  <p className="text-[10px]">{da?.InstaCount}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
+
+        {/* Right scroll button */}
+        <button
+          onClick={scrollRight}
+          className="absolute md:block hidden right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
+        >
+          &gt;
+        </button>
+      </div>
+    </div>
         {/* <div className="mt-6 md:mt-12 poppins-600">
           <h2 className="text-[18px] md:text-[32px] md:text-center ">
             Become Super Earnr

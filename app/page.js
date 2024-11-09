@@ -12,13 +12,13 @@ export default function Home() {
         </h2>
       </div>
       <div className="flex flex-col gap-3">
-        <Link href={"/login"} className="bg-[#FFCD48] py-2 px-4 text-center text-black rounded-3xl w-full text-[20px]" >Sign In</Link>
+        <Link href={"/login"} className="bg-[#FFCD48] urbanist-700 py-2 px-4 text-center text-black rounded-3xl w-full text-[20px]" >Sign In</Link>
         <div className="flex items-center gap-2">
           <span><img src="/hoizontalLine.svg" className="w-full"/></span>
           <span>or</span>
           <span><img src="/hoizontalLine.svg" className="w-full"/></span>
         </div>
-        <button href={"/signup"} className="bg-[#FFCD48] py-2 px-4 text-black rounded-3xl w-full text-[20px]">Sign Up</button>
+        <button href={"/signup"} className="bg-[#FFCD48] urbanist-700 py-2 px-4 text-black rounded-3xl w-full text-[20px]">Sign Up</button>
       </div>
     </div>
   );

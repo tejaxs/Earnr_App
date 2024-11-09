@@ -80,7 +80,7 @@ const Activity = () => {
     cat === "Started Activities"
       ? userActivities
       : cat === "My Activities"
-      ? followedActivities
+      ?  [...new Set([...userActivities, ...followedActivities])]
       : activities;
 
   return (
@@ -136,7 +136,7 @@ const Activity = () => {
                     />
                     <p className="urbanist-800 text-xs mt-1">{da?.creatorName}</p>
                   </div>
-                  <div className="pl-4 md:pb-4 pb-2">
+                  <div className="pl-2 md:pb-4 pb-2">
                     <h2 className="md:text-[18px] urbanist-700">
                       {da?.reward} Earnr Coins
                     </h2>
