@@ -9,6 +9,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
   const { user } = useAuth();
   const [hasStarted, setHasStarted] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [hasCompleted, setHasCompleted] = useState(false);
 
   useEffect(() => {
     // Check if the activity has already been started by the user
@@ -16,6 +17,12 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
       setHasStarted(true);
     } else {
       setHasStarted(false);
+    }
+
+    if (selectedActivity?.completedActivity?.includes(user?.uid)) {
+      setHasCompleted(true);
+    } else {
+      setHasCompleted(false);
     }
 
     // Check if the user is following the creator of the activity
@@ -104,14 +111,20 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
         </div>
 
         <div className="flex justify-center">
-          {hasStarted ? (
+            {hasCompleted ? (
+            <button
+              className="bg-[#4CAF50] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
+            >
+              Completed
+            </button>
+          ) : hasStarted ? (
             <Link
               target="_blank"
               href={selectedActivity?.postLink}
-              onClick={handleStartActivity}
+              onClick={handleCompleteActivity}
               className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
             >
-              Started
+              Complete Activity
             </Link>
           ) : isFollowing ? (
             <Link
