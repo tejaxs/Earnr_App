@@ -75,13 +75,9 @@ const Home = () => {
         <div className="flex justify-center w-full poppins-600 md:mt-6 mt-10">
           <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
             <div className="flex flex-col gap-2">
-              <div className="text-[40px] flex items-center gap-2">
+              <div className="text-[40px]">
                 {coins}{" "}
-                <img
-                  src="/whitelogo.png"
-                  alt=""
-                  className="w-[35px] h-[32px] relative bottom-1"
-                />{" "}
+                ₹
               </div>
               <div>{user?.displayName}</div>
               <div>

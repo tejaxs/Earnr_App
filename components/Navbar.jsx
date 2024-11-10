@@ -10,7 +10,6 @@ const Navbar = () => {
   useEffect(() => {
     seturl(user?.photoURL);
   }, [user?.photoURL]);
-  console.log(url);
 
   return (
     <div className="p-2 md:flex hidden justify-between items-center w-full">

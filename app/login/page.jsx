@@ -99,13 +99,14 @@ const Login = () => {
     }
   };
 
-  if (loading && authLoading)
+  if (loading || authLoading)
     return (
       <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">
         <Loader />
       </div>
     ); // Show loader during initial load
   return (
+    
     <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">
       
       <div className="text-center flex flex-col gap-2">

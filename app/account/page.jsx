@@ -63,11 +63,7 @@ const Account = () => {
           <div className="flex justify-center text-[18px] poppins-600 relative top-6">
             <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
               <div className="flex gap-2 items-center">
-                <img
-                  src="/whitelogo.png"
-                  alt=""
-                  className="w-[22px] h-[18px] "
-                />
+              ₹
                 <p>{value}</p>
               </div>
               <div>|</div>
@@ -87,22 +83,8 @@ const Account = () => {
                 }}
               />
               <div className="w-full flex justify-between poppins-600 ">
-                <span className="flex items-center gap-1">
-                  <img
-                    src="/whitelogo.png"
-                    alt=""
-                    className="w-[22px] h-[18px] "
-                  />{" "}
-                  {minValue}
-                </span>
-                <span className="flex items-center gap-1">
-                  <img
-                    src="/whitelogo.png"
-                    alt=""
-                    className="w-[22px] h-[18px]"
-                  />{" "}
-                  {maxValue}
-                </span>
+                <span className="flex items-center gap-1">₹{minValue}</span>
+                <span className="flex items-center gap-1">₹{maxValue}</span>
               </div>
             </div>
             <div className="h-[1px] mt-6 w-full bg-[#CACACA]"></div>
@@ -139,7 +121,7 @@ const Account = () => {
             <div className="mt-6">
               <h2 className="poppins-600 text-[18px] text-[#CACACA]">More</h2>
               <div className="poppins-600 flex flex-col gap-3 mt-4">
-                <Link href={""} className="flex items-center justify-between">
+                <Link href={"/account/about"} className="flex items-center justify-between">
                   {" "}
                   <p>About Us</p>
                   <img
@@ -149,7 +131,7 @@ const Account = () => {
                   />{" "}
                 </Link>
 
-                <Link href={""} className="flex items-center justify-between">
+                <Link href={"/account/privacy"} className="flex items-center justify-between">
                   {" "}
                   <p>Privacy Policy</p>
                   <img
@@ -158,7 +140,7 @@ const Account = () => {
                     className="w-[7px] h-[12px]"
                   />{" "}
                 </Link>
-                <Link href={""} className="flex items-center justify-between">
+                <Link href={"/account/terms"} className="flex items-center justify-between">
                   {" "}
                   <p>Terms & Conditions</p>
                   <img

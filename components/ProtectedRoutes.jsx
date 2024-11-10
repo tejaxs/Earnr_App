@@ -3,6 +3,7 @@
 import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import Loader from "./Loader";
 
 const ProtectedRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -16,7 +17,9 @@ const ProtectedRoute = ({ children }) => {
   }, [user, loading, router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="h-screen flex items-center justify-center">
+      <Loader/>
+    </div>;
   }
   if (user && !user.emailVerified) {
     return (
