@@ -69,7 +69,7 @@ const Activity = () => {
     return () => getActivities();
   }, [user]);
 
-  const categories = ["All", "Started Activities", "My Activities"]; // Adding 'Activity' for followed creators
+  const categories = ["All", "My Activities"]; // Adding 'Activity' for followed creators
 
   const handleCategoryClick = (category) => {
     router.push(`/v2/activity?cat=${category}`);

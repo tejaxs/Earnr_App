@@ -1,13 +1,17 @@
+"use client";
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const Navbar = () => {
   const { user } = useAuth();
-  const pathname  = usePathname();
-  // console.log(pathname);
-  
+  const [url, seturl] = useState(null);
+
+  useEffect(() => {
+    seturl(user?.photoURL);
+  }, [user?.photoURL]);
+  console.log(url);
+
   return (
     <div className="p-2 md:flex hidden justify-between items-center w-full">
       <Link href={"/v2/home"}>
@@ -47,11 +51,13 @@ const Navbar = () => {
       <Link href={"/account"} className="flex items-center">
         <span className="bg-[#f4f3fc6a] px-3 rounded-l-xl">Free</span>
         <img
-          src={user?.photoURL || "/person.png"}
+          src={url || "/person.png"}
           alt=""
           className="relative right-2 w-[36px] h-[36px] rounded-full"
         />
       </Link>
+
+
     </div>
   );
 };

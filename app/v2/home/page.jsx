@@ -13,15 +13,16 @@ const Home = () => {
   useEffect(() => {
     const creatorCollection = collection(db, "creators");
     const getData = onSnapshot(creatorCollection, (snapshot) => {
-      const creatorData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const creatorData = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((creator) => creator.followers?.includes(user?.uid));
       setCreators(creatorData);
     });
     return getData;
-  }, []);
-
+  }, [user?.uid]);
 
   const [coins, setCoins] = useState(0);
   const [level, setLevel] = useState("Level 1");
@@ -67,26 +68,34 @@ const Home = () => {
             <img
               src={user?.photoURL || "/person.png"}
               alt=""
-              
               className="relative right-2 w-[36px] h-[36px] rounded-full"
             />
           </Link>
         </div>
-        <div className="flex justify-center w-full poppins-600 md:mt-0 mt-10">
+        <div className="flex justify-center w-full poppins-600 md:mt-6 mt-10">
           <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
             <div className="flex flex-col gap-2">
-              <div className="text-[40px]">{coins} ₹</div>
+              <div className="text-[40px] flex items-center gap-2">
+                {coins}{" "}
+                <img
+                  src="/whitelogo.png"
+                  alt=""
+                  className="w-[35px] h-[32px] relative bottom-1"
+                />{" "}
+              </div>
               <div>{user?.displayName}</div>
               <div>
                 <button className="bg-white px-2 text-[14px] rounded-[16px]  poppins-500">
-                {level}
+                  {level}
                 </button>
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <div className="bg-[#FFD233] text-white text-[40px] flex justify-center items-center w-[100px] h-[100px] rounded-full border-2 border-white shadow-xl shadow-[#3635357c]">
-              ₹
-              </div>
+              <img
+                src="/whitelogo.png"
+                alt=""
+                className="md:w-[120px] w-[100px] md:h-[100px] h-[80px]"
+              />
 
               <button className="text-[14px] border border-black rounded-[16px]  poppins-500">
                 Withdraw
@@ -96,59 +105,61 @@ const Home = () => {
         </div>
 
         <div className="mt-10 md:mt-16 poppins-600 relative">
-      <h2 className="text-[18px] md:text-[32px] md:text-center">Your Creators</h2>
+          <h2 className="text-[18px] md:text-[32px] md:text-center">
+            Your Creators
+          </h2>
 
-      <div className="w-full overflow-hidden md:mt-6 mt-4 relative">
-        {/* Left scroll button */}
-        <button
-          onClick={scrollLeft}
-          className="absolute md:block hidden left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
-        >
-          &lt;
-        </button>
-
-        {/* Carousel */}
-        <div
-          className="flex space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-          id="carousel"
-          ref={carouselRef}
-        >
-          {creators?.map((da, i) => (
-            <Link
-              href={`/v1/${da?.id}`}
-              key={i}
-              className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black"
+          <div className="w-full overflow-hidden md:mt-6 mt-4 relative">
+            {/* Left scroll button */}
+            <button
+              onClick={scrollLeft}
+              className="absolute hidden left-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
             >
-              <div
-                style={{ backgroundColor: da?.color }}
-                className="rounded-t-lg flex justify-center"
-              >
-                <img
-                  src={da?.image}
-                  alt=".."
-                  className="md:w-[130px] md:h-[220px] w-[90px] h-[160px]"
-                />
-              </div>
-              <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
-                <p className="text-left">{da?.name}</p>
-                <div>
-                  <img src="/instagram.svg" alt="" />
-                  <p className="text-[10px]">{da?.InstaCount}</p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              &lt;
+            </button>
 
-        {/* Right scroll button */}
-        <button
-          onClick={scrollRight}
-          className="absolute md:block hidden right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
-        >
-          &gt;
-        </button>
-      </div>
-    </div>
+            {/* Carousel */}
+            <div
+              className="flex md:justify-center md:space-x-20 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+              id="carousel"
+              ref={carouselRef}
+            >
+              {creators?.map((da, i) => (
+                <Link
+                  href={`/v1/${da?.id}`}
+                  key={i}
+                  className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black"
+                >
+                  <div
+                    style={{ backgroundColor: da?.color }}
+                    className="rounded-t-lg flex justify-center"
+                  >
+                    <img
+                      src={da?.image}
+                      alt=".."
+                      className="md:w-[130px] md:h-[220px] w-[90px] h-[160px]"
+                    />
+                  </div>
+                  <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
+                    <p className="text-left">{da?.name}</p>
+                    <div>
+                      <img src="/instagram.svg" alt="" />
+                      <p className="text-[10px]">{da?.InstaCount}</p>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* Right scroll button */}
+            <button
+              onClick={scrollRight}
+              className="absolute hidden right-0 top-1/2 transform -translate-y-1/2 bg-gray-700 text-white rounded-full p-2"
+            >
+              &gt;
+            </button>
+          </div>
+        </div>
         {/* <div className="mt-6 md:mt-12 poppins-600">
           <h2 className="text-[18px] md:text-[32px] md:text-center ">
             Become Super Earnr

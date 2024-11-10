@@ -191,3 +191,13 @@
     background-position: center;    /* Center the image */
     background-repeat: no-repeat;
 }
+
+
+  @keyframes grid-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.8); }
+  }
+  .animate-grid-pulse {
+    animation: grid-pulse 0.8s infinite;
+  }
+

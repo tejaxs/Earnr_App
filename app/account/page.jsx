@@ -63,7 +63,11 @@ const Account = () => {
           <div className="flex justify-center text-[18px] poppins-600 relative top-6">
             <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
               <div className="flex gap-2 items-center">
-                <div className="border-2 border-white rounded-full px-2">£</div>
+                <img
+                  src="/whitelogo.png"
+                  alt=""
+                  className="w-[22px] h-[18px] "
+                />
                 <p>{value}</p>
               </div>
               <div>|</div>
@@ -83,8 +87,22 @@ const Account = () => {
                 }}
               />
               <div className="w-full flex justify-between poppins-600 ">
-                <span>£ {minValue}</span>
-                <span>£ {maxValue}</span>
+                <span className="flex items-center gap-1">
+                  <img
+                    src="/whitelogo.png"
+                    alt=""
+                    className="w-[22px] h-[18px] "
+                  />{" "}
+                  {minValue}
+                </span>
+                <span className="flex items-center gap-1">
+                  <img
+                    src="/whitelogo.png"
+                    alt=""
+                    className="w-[22px] h-[18px]"
+                  />{" "}
+                  {maxValue}
+                </span>
               </div>
             </div>
             <div className="h-[1px] mt-6 w-full bg-[#CACACA]"></div>
