@@ -121,7 +121,9 @@ const Activity = () => {
             {loading ? (
               <Loader /> // Show loader when loading
             ) : (
-              displayedActivities.map((da, i) => (
+              displayedActivities
+              .filter((da) => da.status === "pending")
+              .map((da, i) => (
                 <div
                   key={i}
                   onClick={() => handleActivityClick(da)}

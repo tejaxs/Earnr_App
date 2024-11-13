@@ -31,7 +31,7 @@ const BeCreatorform = ({ setShowModal }) => {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white w-full max-w-lg p-6 rounded-lg overflow-y-auto max-h-[80vh]">
         <h2 className="text-xl font-bold mb-4">Become a Creator</h2>
-        <form onSubmit={handleFormSubmit} className="space-y-4">
+        <form onSubmit={handleFormSubmit} className="space-y-4 text-black">
           <input
             type="text"
             name="name"
@@ -87,6 +87,7 @@ const BeCreatorform = ({ setShowModal }) => {
             required
             className="w-full p-2 border border-gray-300 rounded-md"
           />
+          <div>Availability for a Call/Meet:</div>
           <input
             type="date"
             name="callDate"
@@ -109,7 +110,7 @@ const BeCreatorform = ({ setShowModal }) => {
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold transition duration-200"
+              className="px-4 py-2 bg-[#FFBE4E] text-white rounded-lg  font-semibold transition duration-200"
             >
               Submit
             </button>

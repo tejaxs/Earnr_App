@@ -11,12 +11,12 @@ const layout = ({ children }) => {
     <div className="w-full min-h-screen grad md:px-40 px-0">
       <Navbar/>
       <div className="flex-1 overflow-y-auto  pb-20">{children}</div>
-      <div className="fixed bottom-0 left-0 w-full z-20  gradient-border md:hidden flex justify-between items-center p-2  px-8">
+      <div className="fixed bottom-0 left-0 w-full z-20  gradient-border md:hidden flex justify-between items-center p-1  px-8">
         <Link href={"/v2/home"} className="flex flex-col gap-1 items-center justify-center">
           <img
             src={`${pathname == "/v2/home" ? "/homehover.png" : "/home.png"}`}
             alt="."
-            className="w-[30px] h-[32px]"
+            className="w-[28px] h-[30px]"
           />
           <p className={` poppins-600 text-[10px]`}>Home</p>
         </Link>
@@ -26,7 +26,7 @@ const layout = ({ children }) => {
               pathname == "/v2/creator" ? "/creatorhover.png" : "/creator.png"
             }`}
             alt="."
-            className="w-[37px] h-[35px]"
+            className="w-[35px] h-[33px]"
           />
           <p className={` poppins-600 text-[10px]`}>Creators</p>
         </Link>
@@ -38,7 +38,7 @@ const layout = ({ children }) => {
                 : "/activity.png"
             }`}
             alt="."
-            className="w-[40px] h-[40px]"
+            className="w-[38px] h-[38px]"
           />
           <p className={` poppins-600 text-[10px]`}>Activities</p>
         </Link>
