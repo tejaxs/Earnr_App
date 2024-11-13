@@ -4,6 +4,7 @@ import { Modal } from "@mui/material";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import ActivityTimer from "./ActivityTimer";
 
 const ActivityModal = ({ open, handleClose, selectedActivity }) => {
   const { user } = useAuth();
@@ -89,8 +90,8 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
               className="w-[42px] h-[46px]"
             />
             <div className="relative">
-              <p className="absolute -right-12 top-1 text-[14px] bg-[#FFBE4E] rounded-3xl px-8 poppins-600 m-1 ">
-                {selectedActivity?.time}
+              <p className="absolute -right-6 top-3 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 ">
+              <ActivityTimer activityDate={selectedActivity?.activityDate} activityTime={selectedActivity?.time}/>
               </p>
             </div>
           </div>

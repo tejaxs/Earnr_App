@@ -11,24 +11,26 @@ const layout = ({ children }) => {
     <div className="w-full min-h-screen grad md:px-40 px-0">
       <Navbar/>
       <div className="flex-1 overflow-y-auto  pb-20">{children}</div>
-      <div className="fixed bottom-0 left-0 w-full z-20  gradient-border md:hidden flex justify-between p-2 px-8">
-        <Link href={"/v2/home"}>
+      <div className="fixed bottom-0 left-0 w-full z-20  gradient-border md:hidden flex justify-between items-center p-2  px-8">
+        <Link href={"/v2/home"} className="flex flex-col gap-1 items-center justify-center">
           <img
             src={`${pathname == "/v2/home" ? "/homehover.png" : "/home.png"}`}
             alt="."
-            className="w-[35px] h-[48px]"
+            className="w-[30px] h-[32px]"
           />
+          <p className={` poppins-600 text-[10px]`}>Home</p>
         </Link>
-        <Link href={"/v2/creator?cat=All"}>
+        <Link href={"/v2/creator?cat=All"} className="flex flex-col gap-1 items-center justify-center">
           <img
             src={`${
               pathname == "/v2/creator" ? "/creatorhover.png" : "/creator.png"
             }`}
             alt="."
-            className="w-[35px] h-[48px]"
+            className="w-[37px] h-[35px]"
           />
+          <p className={` poppins-600 text-[10px]`}>Creators</p>
         </Link>
-        <Link href={"/v2/activity?cat=All"}>
+        <Link href={"/v2/activity?cat=All"} className="flex flex-col gap-1 items-center justify-center">
           <img
             src={`${
               pathname == "/v2/activity"
@@ -36,8 +38,9 @@ const layout = ({ children }) => {
                 : "/activity.png"
             }`}
             alt="."
-            className="w-[35px] h-[48px]"
+            className="w-[40px] h-[40px]"
           />
+          <p className={` poppins-600 text-[10px]`}>Activities</p>
         </Link>
       </div>
     </div>

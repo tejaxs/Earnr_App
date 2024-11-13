@@ -2,13 +2,15 @@
 import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import BeCreatorform from "./BeCreatorform";
 
 const Navbar = () => {
   const { user } = useAuth();
-  const [url, seturl] = useState(null);
+  const [url, setUrl] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
-    seturl(user?.photoURL);
+    setUrl(user?.photoURL);
   }, [user?.photoURL]);
 
   return (
@@ -17,7 +19,7 @@ const Navbar = () => {
         <img
           className="md:w-[218px] w-[120px] md:h-[62px] h-[38px]"
           src="/earnr_white@4x 1.png"
-          alt=""
+          alt="Logo"
         />
       </Link>
       <div className="flex gap-12 text-white">
@@ -39,13 +41,12 @@ const Navbar = () => {
         >
           Activity
         </Link>
-        <Link
-          href={"https://forms.gle/GFNgJQMgYyRnckvF6"}
-          target="_blank"
+        <button
+          onClick={() => setShowModal(true)}
           className="text-[20px] text-[#FFCE48]  px-2 urbanist-600"
         >
-          Be a Creator !
-        </Link>
+          Be a Creator!
+        </button>
       </div>
       <Link href={"/account"} className="flex items-center">
         <span className="bg-[#f4f3fc6a] px-3 rounded-l-xl">Free</span>
@@ -56,7 +57,8 @@ const Navbar = () => {
         />
       </Link>
 
-
+      {/* Form Modal */}
+      {showModal && <BeCreatorform setShowModal={setShowModal} />}
     </div>
   );
 };

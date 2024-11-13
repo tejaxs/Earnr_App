@@ -7,6 +7,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import useAuth from "@/hooks/useAuth";
+import Loader from "@/components/Loader"; // Assuming Loader component is imported from this path
 
 const Activity = () => {
   const router = useRouter();
@@ -57,20 +58,20 @@ const Activity = () => {
     }
   }, [cat, creators, userFollowing]);
 
-  // Handle loading state
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   // Handle category click
   const handleCategoryClick = (category) => {
     router.push(`/v2/creator?cat=${category}`);
   };
 
+  // Handle loading state
+  if (loading) {
+    return <Loader />; // Show loader while fetching data
+  }
+
   return (
     <ProtectedRoute>
       <div className="px-3 py-2 text-white">
-        <div className="w-full overflow-hidden mt-3 poppins-600">
+        <div className="w-full flex overflow-hidden mt-3 poppins-600">
           <div
             className="flex md:flex-wrap md:gap-6 gap-0 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
             id="carousel"
@@ -97,31 +98,35 @@ const Activity = () => {
               className="flex flex-wrap md:gap-12 gap-4 md:justify-center justify-evenly"
               id="carousel"
             >
-              {filteredCreators.map((da, i) => (
-                <Link
-                  href={`/v1/${da?.id}`}
-                  key={i}
-                  className=" w-[140px] md:w-52 cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
-                >
-                  <div
-                    style={{ backgroundColor: da?.color }}
-                    className={` rounded-t-lg flex justify-center`}
+              {filteredCreators.length === 0 ? (
+                <Loader /> // Show loader if no creators are available
+              ) : (
+                filteredCreators.map((da, i) => (
+                  <Link
+                    href={`/v1/${da?.id}`}
+                    key={i}
+                    className=" w-[140px] md:w-52 cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
                   >
-                    <img
-                      src={da?.image}
-                      alt=".."
-                      className="md:w-[130px] md:h-[220px] w-[90px] h-[150px]"
-                    />
-                  </div>
-                  <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
-                    <p className="text-left">{da?.name}</p>
-                    <div>
-                      <img src="/instagram.svg" alt="" />
-                      <p className="text-[10px]">{da?.InstaCount}</p>
+                    <div
+                      style={{ backgroundColor: da?.color }}
+                      className={` rounded-t-lg flex justify-center`}
+                    >
+                      <img
+                        src={da?.image}
+                        alt=".."
+                        className="md:w-[130px] md:h-[220px] w-[90px] h-[150px]"
+                      />
                     </div>
-                  </div>
-                </Link>
-              ))}
+                    <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
+                      <p className="text-left">{da?.name}</p>
+                      <div>
+                        <img src="/instagram.svg" alt="" />
+                        <p className="text-[10px]">{da?.InstaCount}</p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              )}
             </div>
           </div>
         </div>
