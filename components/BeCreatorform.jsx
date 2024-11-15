@@ -28,9 +28,9 @@ const BeCreatorform = ({ setShowModal }) => {
       }
   };
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white w-full max-w-lg p-6 rounded-lg overflow-y-auto max-h-[80vh]">
-        <h2 className="text-xl font-bold mb-4">Become a Creator</h2>
+    <div className="fixed inset-0 px-4 bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="bg-white w-full poppins-400 max-w-lg p-3 rounded-lg overflow-y-auto max-h-[80vh]">
+        <h2 className="text-xl poppins-700 mb-4 text-black">Become a Creator</h2>
         <form onSubmit={handleFormSubmit} className="space-y-4 text-black">
           <input
             type="text"

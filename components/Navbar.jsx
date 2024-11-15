@@ -17,33 +17,33 @@ const Navbar = () => {
     <div className="p-2 md:flex hidden justify-between items-center w-full">
       <Link href={"/v2/home"}>
         <img
-          className="md:w-[218px] w-[120px] md:h-[62px] h-[38px]"
+          className="lg:w-[218px] md:w-[120px] lg:h-[62px] md:h-[40px]"
           src="/earnr_white@4x 1.png"
           alt="Logo"
         />
       </Link>
-      <div className="flex gap-12 text-white">
+      <div className="flex lg:gap-12 md:gap-8 text-white">
         <Link
           href={"/v2/home"}
-          className="text-[20px] hover:border-b border-white px-2 urbanist-500"
+          className="lg:text-[20px] text-[15px] hover:border-b border-white px-2 urbanist-500"
         >
           Home
         </Link>
         <Link
           href={"/v2/creator?cat=All"}
-          className="text-[20px] hover:border-b border-white px-2 urbanist-500"
+          className="lg:text-[20px] text-[15px]] hover:border-b border-white px-2 urbanist-500"
         >
           Creator
         </Link>
         <Link
           href={"/v2/activity?cat=All"}
-          className="text-[20px] hover:border-b border-white px-2 urbanist-500"
+          className="lg:text-[20px] text-[15px] hover:border-b border-white px-2 urbanist-500"
         >
           Activity
         </Link>
         <button
           onClick={() => setShowModal(true)}
-          className="text-[20px] text-[#FFCE48]  px-2 urbanist-600"
+          className="lg:text-[20px] text-[15px] text-[#FFCE48]  px-2 urbanist-600"
         >
           Be a Creator!
         </button>
