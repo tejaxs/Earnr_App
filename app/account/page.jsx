@@ -103,7 +103,7 @@ const Account = () => {
             <div className="flex justify-center text-[18px] poppins-600 relative top-6">
               <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
                 <div className="flex gap-2 items-center">
-                  ₹<p>{value}</p>
+                <img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" /><p>{value}</p>
                 </div>
                 <div>|</div>
                 <div>{level}</div>
@@ -122,8 +122,8 @@ const Account = () => {
                   }}
                 />
                 <div className="w-full flex justify-between poppins-600 ">
-                  <span className="flex items-center gap-1">₹{minValue}</span>
-                  <span className="flex items-center gap-1">₹{maxValue}</span>
+                  <span className="flex items-center gap-1"><img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" />{minValue}</span>
+                  <span className="flex items-center gap-1"><img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" />{maxValue}</span>
                 </div>
               </div>
               <div className="h-[1px] mt-6 w-full bg-[#CACACA]"></div>

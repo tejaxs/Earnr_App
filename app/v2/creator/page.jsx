@@ -118,7 +118,7 @@ const Activity = () => {
               ))}
             </div>
             <div className="flex gap-1 text-sm  p-1 px-3 items-center rounded-full border border-white">
-              ₹<p>{value}</p>
+            <img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" /><p>{value}</p>
             </div>
           </div>
         </div>
