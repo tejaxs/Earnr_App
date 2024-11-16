@@ -145,7 +145,7 @@ const Activity = () => {
                       <img
                         src={da?.image}
                         alt=".."
-                        className="md:w-[130px] md:h-[220px] w-[90px] h-[150px]"
+                        className="md:w-[130px] md:h-[220px] w-[110px] h-[160px]"
                       />
                     </div>
                     <div className="flex justify-between px-2 items-center h-[50px] text-center md:text-[20px] urbanist-800 bg-white rounded-b-lg">
