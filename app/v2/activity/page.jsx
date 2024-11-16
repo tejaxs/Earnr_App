@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import ActivityModal from "@/components/ActivityModal";
 import ActivityTimer from "@/components/ActivityTimer";
 import withSuspense from "@/components/Suspense";
@@ -54,12 +54,12 @@ const Activity = () => {
           creatorId: doc.ref.parent.parent.id,
           ...doc.data(),
         }));
-        
+
         setActivities(allActivities);
 
         // Filter activities that the current user has started
-        const userFilteredActivities = allActivities.filter((activity) =>
-          activity.startedActivity?.includes(user?.uid) // Check if user ID is in 'startedActivity' list
+        const userFilteredActivities = allActivities.filter(
+          (activity) => activity.startedActivity?.includes(user?.uid) // Check if user ID is in 'startedActivity' list
         );
         setUserActivities(userFilteredActivities);
 
@@ -87,29 +87,58 @@ const Activity = () => {
     cat === "Started Activities"
       ? userActivities
       : cat === "My Activities"
-      ?  [...new Set([...userActivities, ...followedActivities])]
+      ? [...new Set([...userActivities, ...followedActivities])]
       : activities;
 
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const fetchCoin = async () => {
+      if (!user?.uid) return; // Early exit if user is not available
+
+      try {
+        const userRef = doc(db, "users", user.uid); // Using user.uid directly
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          // Ensure that the coin is a number
+          const coinValue = Number(userData.coin) || 0; // Default to 0 if NaN
+          setValue(coinValue); // Set coin balance from the fetched data
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error); // Handle errors
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCoin(); // Call the function to fetch user data
+  }, [user?.uid]);
   return (
     <div className="px-3 py-2 text-white">
       <div className="w-full overflow-hidden mt-3 poppins-600">
-        <div
-          className="flex md:flex-wrap md:gap-4 gap-0 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-          id="carousel"
-        >
-          {categories.map((ca, i) => (
-            <div
-              key={i}
-              onClick={() => handleCategoryClick(ca)}
-              className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer ${
-                cat === ca
-                  ? "text-[#F7B84B] border-[#F7B84B]"
-                  : "text-[#F4F3FC] border-[#F4F3FC]"
-              } `}
-            >
-              {ca}
-            </div>
-          ))}
+        <div className="flex justify-between">
+          <div
+            className="flex md:flex-wrap md:gap-4 gap-0 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+            id="carousel"
+          >
+            {categories.map((ca, i) => (
+              <div
+                key={i}
+                onClick={() => handleCategoryClick(ca)}
+                className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer ${
+                  cat === ca
+                    ? "text-[#F7B84B] border-[#F7B84B]"
+                    : "text-[#F4F3FC] border-[#F4F3FC]"
+                } `}
+              >
+                {ca}
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-1 text-sm  p-1 px-3 items-center rounded-full border border-white">
+            ₹<p>{value}</p>
+          </div>
         </div>
       </div>
       <div className="mt-6 md:mt-12">
@@ -122,46 +151,55 @@ const Activity = () => {
               <Loader /> // Show loader when loading
             ) : (
               displayedActivities
-              .filter((da) => da.status === "pending")
-              .map((da, i) => (
-                <div
-                  key={i}
-                  onClick={() => handleActivityClick(da)}
-                  className="md:w-[230px] w-[140px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
-                >
-                  <div className="relative">
-                    <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
-                      <ActivityTimer activityDate={da?.activityDate} activityTime={da?.time}/>
-                    </p>
-                    <img
-                      src={da?.image}
-                      alt=".."
-                      className="rounded-t-lg w-full md:h-[130px] h-[100px]"
-                    />
-                  </div>
-                  <div className="bg-white rounded-b-lg">
-                    <div className="flex md:gap-5 gap-3">
+                .filter((da) => da.status === "pending")
+                .map((da, i) => (
+                  <div
+                    key={i}
+                    onClick={() => handleActivityClick(da)}
+                    className="md:w-[230px] w-[140px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
+                  >
+                    <div className="relative">
+                      <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
+                        <ActivityTimer
+                          activityDate={da?.activityDate}
+                          activityTime={da?.time}
+                        />
+                      </p>
                       <img
-                        src={da?.icon}
-                        alt=""
-                        className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
+                        src={da?.image}
+                        alt=".."
+                        className="rounded-t-lg w-full md:h-[130px] h-[100px]"
                       />
-                      <p className="urbanist-800 text-xs mt-1">{da?.creatorName}</p>
                     </div>
-                    <div className="pl-2 md:pb-4 pb-2">
-                      <h2 className="md:text-[18px] urbanist-700">
-                        {da?.reward} Earnr Coins
-                      </h2>
-                      <p className="urbanist-500 text-[14px]">{da?.goal}</p>
+                    <div className="bg-white rounded-b-lg">
+                      <div className="flex md:gap-5 gap-3">
+                        <img
+                          src={da?.icon}
+                          alt=""
+                          className="relative w-[36px] h-[36px] bottom-4 md:left-4 left-2"
+                        />
+                        <p className="urbanist-800 text-xs mt-1">
+                          {da?.creatorName}
+                        </p>
+                      </div>
+                      <div className="pl-2 md:pb-4 pb-2">
+                        <h2 className="md:text-[18px] urbanist-700">
+                          {da?.reward} Earnr Coins
+                        </h2>
+                        <p className="urbanist-500 text-[14px]">{da?.goal}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))
             )}
           </div>
         </div>
       </div>
-      <ActivityModal open={open} handleClose={handleClose} selectedActivity={selectedActivity} />
+      <ActivityModal
+        open={open}
+        handleClose={handleClose}
+        selectedActivity={selectedActivity}
+      />
     </div>
   );
 };

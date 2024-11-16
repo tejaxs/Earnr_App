@@ -87,7 +87,7 @@ const BeCreatorform = ({ setShowModal }) => {
             required
             className="w-full p-2 border border-gray-300 rounded-md"
           />
-          <div>Availability for a Call/Meet:</div>
+          {/* <div>Availability for a Call/Meet:</div>
           <input
             type="date"
             name="callDate"
@@ -99,8 +99,8 @@ const BeCreatorform = ({ setShowModal }) => {
             name="callTime"
             required
             className="w-full p-2 border border-gray-300 rounded-md"
-          />
-          <div className="flex justify-end space-x-3">
+          /> */}
+          <div className="flex justify-end space-x-3 pt-3">
             <button
               type="button"
               onClick={() => setShowModal(false)}

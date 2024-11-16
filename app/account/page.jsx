@@ -13,9 +13,7 @@ import React, { useEffect, useState } from "react";
 const Account = () => {
   const { user } = useAuth();
   const [value, setValue] = useState(0);
-  const minValue = 0;
-  const maxValue = 200;
-  const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
+
   const router = useRouter();
   const [loading1, setLoading1] = useState(true);
   const handleLogout = async () => {
@@ -54,17 +52,29 @@ const Account = () => {
     fetchCoin(); // Call the function to fetch user data
   }, [user?.uid]);
 
+  const [minValue,setMinValue]=useState(0);
+  const [maxValue,setMaxValue]=useState(200);
   const [level, setLevel] = useState("Level 1");
   useEffect(() => {
     // Check the coin range and set level accordingly
     if (value >= 0 && value < 200) {
       setLevel("Level 1");
+      setMinValue(0)
+      setMaxValue(200)
     } else if (value >= 200 && value < 500) {
       setLevel("Level 2");
+      setMinValue(200)
+      setMaxValue(500)
     } else if (value >= 500 && value <= 1000) {
       setLevel("Level 3");
+      setMinValue(500)
+      setMaxValue(1000)
     }
   }, [value]);
+
+  // const minValue = 0;
+  // const maxValue = 200;
+  const percentage = ((value - minValue) / (maxValue - minValue)) * 100;
 
   return (
     <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">

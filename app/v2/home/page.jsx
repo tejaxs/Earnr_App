@@ -2,6 +2,7 @@
 import BeCreatorform from "@/components/BeCreatorform";
 import Loader from "@/components/Loader";
 import ProtectedRoute from "@/components/ProtectedRoutes";
+import Withdraw from "@/components/WithDraw";
 import { db } from "@/firebase/firebaseConfig";
 import useAuth from "@/hooks/useAuth";
 import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
@@ -17,6 +18,8 @@ const Home = () => {
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
+
+  const [showModal1, setShowModal1] = useState(false);
   useEffect(() => {
     const fetchCoin = async () => {
       if (!user?.uid) return; // Early exit if user is not available
@@ -123,7 +126,7 @@ const Home = () => {
                   className="md:w-[120px] w-[100px] md:h-[100px] h-[80px]"
                 />
 
-                <button className="text-[14px] border border-black rounded-[16px]  poppins-500">
+                <button onClick={() => setShowModal1(true)} className="text-[14px] border border-black rounded-[16px]  poppins-500">
                   Withdraw
                 </button>
               </div>
@@ -262,6 +265,7 @@ const Home = () => {
           </div>
         </div> */}
         {showModal && <BeCreatorform setShowModal={setShowModal} />}
+        {showModal1 && <Withdraw setShowModal={setShowModal1} />}
       </div>
     </ProtectedRoute>
   );

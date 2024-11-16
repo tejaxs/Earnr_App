@@ -2,7 +2,7 @@
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import withSuspense from "@/components/Suspense";
 import { db } from "@/firebase/firebaseConfig";
-import { collection, onSnapshot, doc } from "firebase/firestore";
+import { collection, onSnapshot, doc, getDoc } from "firebase/firestore";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -63,32 +63,63 @@ const Activity = () => {
     router.push(`/v2/creator?cat=${category}`);
   };
 
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const fetchCoin = async () => {
+      if (!user?.uid) return; // Early exit if user is not available
+
+      try {
+        const userRef = doc(db, "users", user.uid); // Using user.uid directly
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          // Ensure that the coin is a number
+          const coinValue = Number(userData.coin) || 0; // Default to 0 if NaN
+          setValue(coinValue); // Set coin balance from the fetched data
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error); // Handle errors
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCoin(); // Call the function to fetch user data
+  }, [user?.uid]);
+
   // Handle loading state
   if (loading) {
     return <Loader />; // Show loader while fetching data
   }
 
+  
   return (
     <ProtectedRoute>
       <div className="px-3 py-2 text-white">
         <div className="w-full flex overflow-hidden mt-3 poppins-600">
-          <div
-            className="flex md:flex-wrap md:gap-6 gap-0 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-            id="carousel"
-          >
-            {["All", "My Creator"].map((ca, i) => (
-              <div
-                key={i}
-                onClick={() => handleCategoryClick(ca)}
-                className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer ${
-                  cat === ca
-                    ? "text-[#F7B84B] border-[#F7B84B]"
-                    : "text-[#F4F3FC] border-[#F4F3FC]"
-                } `}
-              >
-                {ca}
-              </div>
-            ))}
+          <div className="flex justify-between w-full">
+            <div
+              className="flex md:flex-wrap md:gap-6 gap-0 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+              id="carousel"
+            >
+              {["All", "My Creator"].map((ca, i) => (
+                <div
+                  key={i}
+                  onClick={() => handleCategoryClick(ca)}
+                  className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer ${
+                    cat === ca
+                      ? "text-[#F7B84B] border-[#F7B84B]"
+                      : "text-[#F4F3FC] border-[#F4F3FC]"
+                  } `}
+                >
+                  {ca}
+                </div>
+              ))}
+            </div>
+            <div className="flex gap-1 text-sm  p-1 px-3 items-center rounded-full border border-white">
+              ₹<p>{value}</p>
+            </div>
           </div>
         </div>
 
