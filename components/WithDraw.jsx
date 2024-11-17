@@ -10,7 +10,8 @@ const Withdraw = ({ setShowModal }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const email = user.email; // Use user's email directly
+    const email = user.email; 
+    const phone = e.target.phone.value; 
     const upi = e.target.upi.value;
     const coinsToWithdraw = parseInt(e.target.coins.value, 10);
 
@@ -21,13 +22,13 @@ const Withdraw = ({ setShowModal }) => {
       if (userDoc.exists()) {
         const currentCoins = userDoc.data().coin || 0;
 
-        if (currentCoins < coinsToWithdraw) {
+        if (currentCoins < coinsToWithdraw || coinsToWithdraw <= 0) {
           toast.error("Insufficient coins for withdrawal");
           return;
         }
 
         // Proceed with withdrawal request and coin update
-        await addDoc(collection(db, "WithDraw"), { email, upi, coinsToWithdraw });
+        await addDoc(collection(db, "WithDraw"), { email,phone, upi, coinsToWithdraw });
         await updateDoc(userDocRef, { coin: increment(-coinsToWithdraw) });
 
         toast.success("Money will be credited shortly");
@@ -65,11 +66,19 @@ const Withdraw = ({ setShowModal }) => {
           />
           <input
             type="tel"
-            name="coins"
-            placeholder="Enter Earn Coins"
+            name="phone"
+            placeholder="Enter Phone Number"
             required
             className="w-full p-2 border border-gray-300 rounded-md"
           />
+          <input
+            type="tel"
+            name="coins"
+            placeholder="Enter Amount"
+            required
+            className="w-full p-2 border border-gray-300 rounded-md"
+          />
+          
           <div className="flex justify-end space-x-3 pt-3">
             <button
               type="button"

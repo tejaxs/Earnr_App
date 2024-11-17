@@ -57,20 +57,30 @@ const Account = () => {
   const [level, setLevel] = useState("Level 1");
   useEffect(() => {
     // Check the coin range and set level accordingly
-    if (value >= 0 && value < 200) {
+    if (value >= 0 && value < 500) {
       setLevel("Level 1");
       setMinValue(0)
-      setMaxValue(200)
-    } else if (value >= 200 && value < 500) {
-      setLevel("Level 2");
-      setMinValue(200)
       setMaxValue(500)
-    } else if (value >= 500 && value <= 1000) {
-      setLevel("Level 3");
+    } else if (value >= 500 && value < 1500) {
+      setLevel("Level 2");
       setMinValue(500)
-      setMaxValue(1000)
+      setMaxValue(1500)
+    } else if (value >= 1500 && value <= 3000) {
+      setLevel("Level 3");
+      setMinValue(1500)
+      setMaxValue(3000)
+    }else if (value >= 3000 && value <= 5000) {
+      setLevel("Level 4");
+      setMinValue(3000)
+      setMaxValue(5000)
+    }
+    else if (value >= 5000 && value <= 8000) {
+      setLevel("Level 5");
+      setMinValue(5000)
+      setMaxValue(8000)
     }
   }, [value]);
+
 
   // const minValue = 0;
   // const maxValue = 200;
@@ -97,7 +107,7 @@ const Account = () => {
               <img
                 src={user?.photoURL || "/person.png"}
                 alt=""
-                className="relative right-2 w-[126px] h-[126px] rounded-full"
+                className="relative bg-black right-2 w-[126px] h-[126px] rounded-full"
               />
             </div>
             <div className="flex justify-center text-[18px] poppins-600 relative top-6">

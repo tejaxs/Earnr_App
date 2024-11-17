@@ -53,7 +53,7 @@ const Navbar = () => {
         <img
           src={url || "/person.png"}
           alt=""
-          className="relative right-2 w-[36px] h-[36px] rounded-full"
+          className="relative bg-black right-2 w-[36px] h-[36px] rounded-full"
         />
       </Link>
 

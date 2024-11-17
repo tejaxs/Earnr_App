@@ -14,8 +14,7 @@ const BeCreatorform = ({ setShowModal }) => {
       platform: e.target.platform.value,
       category: e.target.category.value,
       socialLink: e.target.socialLink.value,
-      callDate: e.target.callDate.value,
-      callTime: e.target.callTime.value,
+
     };
     try {
  

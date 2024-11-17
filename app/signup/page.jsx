@@ -25,6 +25,14 @@ const Signup = () => {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    // Extract referral ID from query params
+    const queryParams = new URLSearchParams(window.location.search);
+    const referrer = queryParams.get("ref");
+    console.log(referrer);
+    
+  }, [router]);
+
+  useEffect(() => {
     if (user) {
       router.push("/v2/home");
     }else {
@@ -47,8 +55,9 @@ const Signup = () => {
          // Initialize an empty array for following
       });
   
+
       // Send a verification email
-      await sendEmailVerification(user);
+      await sendEmailVerification(user,actionCodeSettings);
   
       // Redirect to dashboard after signup
       router.push("/v2/home"); 

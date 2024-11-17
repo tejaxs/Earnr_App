@@ -18,8 +18,39 @@ const Home = () => {
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
-
   const [showModal1, setShowModal1] = useState(false);
+
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [showTooltip1, setShowTooltip1] = useState(false);
+  const tooltipRef = useRef(null);
+  const tooltipRef1 = useRef(null);
+
+  // Close the tooltip when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (tooltipRef.current && !tooltipRef.current.contains(event.target)) {
+        setShowTooltip(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (tooltipRef1.current && !tooltipRef1.current.contains(event.target)) {
+        setShowTooltip1(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   useEffect(() => {
     const fetchCoin = async () => {
       if (!user?.uid) return; // Early exit if user is not available
@@ -62,12 +93,18 @@ const Home = () => {
   const [level, setLevel] = useState("Level 1");
   useEffect(() => {
     // Check the coin range and set level accordingly
-    if (coin >= 0 && coin < 200) {
+    if (coin >= 0 && coin < 500) {
       setLevel("Level 1");
-    } else if (coin >= 200 && coin < 500) {
+    } else if (coin >= 500 && coin < 1500) {
       setLevel("Level 2");
-    } else if (coin >= 500 && coin <= 1000) {
+    } else if (coin >= 1500 && coin <= 3000) {
       setLevel("Level 3");
+    }
+    else if (coin >= 3000 && coin <= 5000) {
+      setLevel("Level 4");
+    }
+    else if (coin >= 5000 && coin <= 8000) {
+      setLevel("Level 5");
     }
   }, [coin]);
 
@@ -101,7 +138,7 @@ const Home = () => {
             <img
               src={user?.photoURL || "/person.png"}
               alt=""
-              className="relative right-2 w-[36px] h-[36px] rounded-full"
+              className="relative bg-black right-2 w-[36px] h-[36px] rounded-full"
             />
           </Link>
         </div>
@@ -110,15 +147,58 @@ const Home = () => {
         ) : (
           <div className="flex justify-center w-full poppins-600 md:mt-6 mt-10">
             <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
-              <div className="flex flex-col gap-2">
-                <div className="text-[40px]">₹ {coin}</div>
+              <div className="flex flex-col gap-2 relative">
+                <div className="text-[40px] flex items-center">
+                  ₹ {coin}
+                  {/* Eye button with tooltip */}
+                  <button
+                    ref={tooltipRef1}
+                    className="ml-2 relative group focus:outline-none flex items-center"
+                    onClick={() => setShowTooltip1(!showTooltip1)} // Mobile toggle
+                  >
+                    <div className="text-base flex items-center">
+                        <span className=" border-white border  w-[13px] h-[17px] text-[12px] bg-white  flex justify-center items-center">i</span>
+                    </div>
+                    {/* Tooltip */}
+                    <div
+                      className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-max bg-black text-white text-sm rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
+                        showTooltip1
+                          ? "opacity-100 visible"
+                          : "opacity-0 invisible"
+                      } group-hover:opacity-100 group-hover:visible`}
+                    >
+                      Earning updates on the last day of each month
+                    </div>
+                  </button>
+                </div>
                 <div>{user?.displayName}</div>
-                <div>
-                  <button className="bg-white px-2 text-[14px] rounded-[16px]  poppins-500">
+                <div className="flex items-center relative">
+                  <button className="bg-white px-4 text-[14px] rounded-[16px] poppins-500">
                     {level}
+                    
+                  </button>
+                  <button
+                    ref={tooltipRef}
+                    className="ml-2 relative group focus:outline-none flex items-center"
+                    onClick={() => setShowTooltip(!showTooltip)} // Mobile toggle
+                  >
+                       <div className="text-base flex items-center">
+                        <span className=" border-white border  w-[13px] h-[17px] text-[12px] bg-white  flex justify-center items-center">i</span>
+                    </div>
+                    {/* Tooltip */}
+                    <div
+                      className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-max bg-black text-white text-sm rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
+                        showTooltip
+                          ? "opacity-100 visible"
+                          : "opacity-0 invisible"
+                      } group-hover:opacity-100 group-hover:visible`}
+                    >
+                       Level refreshes each month
+                    </div>
                   </button>
                 </div>
               </div>
+
               <div className="flex flex-col gap-3">
                 <img
                   src="/whitelogo.png"
@@ -126,7 +206,10 @@ const Home = () => {
                   className="md:w-[120px] w-[100px] md:h-[100px] h-[80px]"
                 />
 
-                <button onClick={() => setShowModal1(true)} className="text-[14px] border border-black rounded-[16px]  poppins-500">
+                <button
+                  onClick={() => setShowModal1(true)}
+                  className="text-[14px] border border-black rounded-[16px]  poppins-500"
+                >
                   Withdraw
                 </button>
               </div>

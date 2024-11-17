@@ -2,6 +2,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBDv_yMJC6B4WxF96K8YVjEveM_iFPe4gM",
@@ -19,4 +20,6 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 // Export the authentication instance
 export const auth = getAuth(app);
+export const storage = getStorage(app);
+
 

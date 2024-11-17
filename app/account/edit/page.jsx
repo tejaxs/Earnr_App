@@ -6,7 +6,8 @@ import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 import { updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
-import { db } from "@/firebase/firebaseConfig";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "@/firebase/firebaseConfig"; // Ensure you export `storage` from your Firebase config
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -15,45 +16,83 @@ const EditProfile = () => {
   const router = useRouter();
 
   const [name, setName] = useState("");
-  // const [phoneNumber, setPhoneNumber] = useState();
   const [email, setEmail] = useState("");
+  const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState(photoURL);
 
-  // Set initial values for name and phoneNumber when user data is available
   useEffect(() => {
     if (user) {
       setName(user.displayName || "");
-      // setPhoneNumber(user.phoneNumber || 0);
       setEmail(user.email || "");
+      setPreviewImage(user.photoURL || "/person.png");
     }
   }, [user]);
 
-  // Go back to the previous page
   const handleBack = () => {
     router.back();
   };
-  console.log(user);
 
-  // Save changes to Firebase Auth and Firestore
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setSelectedFile(file);
+
+      // Generate a preview of the image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreviewImage(reader.result); // Set the preview image URL
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  
+  const uploadImage = async () => {
+    if (!selectedFile) return photoURL; // No new file, return the current photoURL
+
+    const storageRef = ref(storage, `profileImages/${user.uid}`);
+    const uploadTask = uploadBytesResumable(storageRef, selectedFile);
+
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        "state_changed",
+        null,
+        (error) => {
+          console.error("Error uploading file:", error);
+          toast.error("Failed to upload image.");
+          reject(error);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setPhotoURL(downloadURL);
+          resolve(downloadURL);
+        }
+      );
+    });
+  };
+
   const handleSaveChanges = async () => {
     try {
-      // 1. Update Firebase Authentication profile
+      // Upload image and get URL
+      const updatedPhotoURL = await uploadImage();
+
+      // Update Firebase Authentication profile
       if (user) {
         await updateProfile(user, {
           displayName: name,
-          // phoneNumber: phoneNumber,
+          photoURL: updatedPhotoURL,
         });
       }
 
-      // 2. Update Firestore document in "users" collection
+      // Update Firestore document
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
-        name: name,
-        // phoneNumber: phoneNumber,
+        name,
+        photoURL: updatedPhotoURL,
       });
 
-      // Toast notification on successful update
       toast.success("Profile updated successfully!");
-      
     } catch (error) {
       console.error("Error updating profile:", error);
       toast.error("Failed to update profile. Please try again.");
@@ -81,27 +120,26 @@ const EditProfile = () => {
           <div className="flex justify-center">
             <div className="mt-4 relative">
               <img
-                src={user?.photoURL || "/person.png"}
+                src={previewImage || "/person.png"}
                 alt="Profile"
-                className="relative right-2 w-[126px] h-[126px] rounded-full"
+                className="relative bg-black right-2 w-[126px] h-[126px] rounded-full object-cover"
               />
               <div className="p-2 bg-[#DCA546] rounded-[8px] absolute bottom-4 right-2">
-                <img src="/edit.png" alt="Edit" className="w-[13px] h-[13px]" />
+                <label htmlFor="fileInput">
+                  <img src="/edit.png" alt="Edit" className="w-[13px] h-[13px] cursor-pointer" />
+                </label>
+                <input
+                  id="fileInput"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
               </div>
             </div>
           </div>
 
           <div className="bg-[#1C1B19]  mt-10 pt-6 md:px-10 px-3 pb-10 flex flex-col gap-8 flex-grow">
-            {/* <div className="flex flex-col gap-3">
-              <label className="urbanist-700 text-[14px]">Phone Number</label>
-              <input
-                type="number"
-                placeholder="Add Number"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                className="px-2 py-1 placeholder:font-semibold urbanist-700 text-black rounded-xl"
-              />
-            </div> */}
             <div className="flex flex-col gap-3">
               <label className="urbanist-700 text-[14px]">Name</label>
               <input
@@ -118,7 +156,6 @@ const EditProfile = () => {
                 type="text"
                 placeholder="Add Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
                 readOnly
                 className="px-2 py-1 read-only:bg-gray-300 placeholder:font-semibold urbanist-700 text-black rounded-xl"
               />
@@ -126,7 +163,7 @@ const EditProfile = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={handleSaveChanges}
-                className="bg-[#FFCD48]  py-2 px-10 urbanist-700 text-center text-black rounded-3xl text-[20px]"
+                className="bg-[#FFCD48] py-2 px-10 urbanist-700 text-center text-black rounded-3xl text-[20px]"
               >
                 Save Changes
               </button>
@@ -135,7 +172,6 @@ const EditProfile = () => {
         </div>
       </ProtectedRoute>
 
-      {/* ToastContainer is needed to display the toast notifications */}
       <ToastContainer />
     </div>
   );
