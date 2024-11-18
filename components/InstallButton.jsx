@@ -52,7 +52,7 @@ const InstallButton = () => {
   
   return (
     isInstallable && isVisible && (
-      <div className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg flex  text-black items-center justify-between">
+      <div className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg md:hidden flex  text-black items-center justify-between">
         <div onClick={handleClose} className="poppins-600">
           X
         </div>
