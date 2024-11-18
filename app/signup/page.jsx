@@ -69,7 +69,7 @@ const Signup = () => {
       }
 
       // Send a verification email
-      await sendEmailVerification(user,actionCodeSettings);
+      await sendEmailVerification(user);
   
       // Redirect to dashboard after signup
       router.push("/v2/home"); 
