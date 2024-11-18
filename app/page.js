@@ -18,7 +18,7 @@ export default function Home() {
           <span>or</span>
           <span><img src="/hoizontalLine.svg" className="w-full"/></span>
         </div>
-        <button href={"/signup"} className="bg-[#FFCD48] urbanist-700 py-2 px-4 text-black rounded-3xl w-full text-[20px]">Sign Up</button>
+        <Link href={"/signup"} className="bg-[#FFCD48] urbanist-700 py-2 px-4 text-black rounded-3xl w-full text-[20px]">Sign Up</Link>
       </div>
     </div>
   );
