@@ -13,7 +13,7 @@ import { auth, db } from "../../firebase/firebaseConfig.jsx";
 import { useRouter } from "next/navigation";
 import Link from "next/link.js";
 import useAuth from "@/hooks/useAuth.jsx";
-import { getDoc, setDoc ,doc} from "firebase/firestore";
+import { getDoc, setDoc ,doc, increment, arrayUnion, updateDoc} from "firebase/firestore";
 
 const Signup = () => {
   const [name, setName] = useState(""); // State for the user's name
@@ -24,14 +24,18 @@ const Signup = () => {
   const {user} = useAuth();
   const [loading, setLoading] = useState(true);
   
+  const [referralBy, setReferralBy] = useState(null);
+
+
   useEffect(() => {
     // Extract referral ID from query params
     const queryParams = new URLSearchParams(window.location.search);
     const referrer = queryParams.get("ref");
-    console.log(referrer);
+   setReferralBy(referrer)
     
   }, [router]);
 
+  
   useEffect(() => {
     if (user) {
       router.push("/v2/home");
@@ -55,6 +59,14 @@ const Signup = () => {
          // Initialize an empty array for following
       });
   
+
+      if (referralBy) {
+        const creatorRef = doc(db, "creators", referralBy);
+        await updateDoc(creatorRef, {
+          referralCount: increment(1), // Increment referral count
+          referredUsers: arrayUnion(user.uid), // Add user ID to the referred users array
+        });
+      }
 
       // Send a verification email
       await sendEmailVerification(user,actionCodeSettings);
@@ -90,6 +102,14 @@ const Signup = () => {
         });
       }
   
+      if (referralBy) {
+        const creatorRef = doc(db, "creators", referralBy);
+        await updateDoc(creatorRef, {
+          referralCount: increment(1), // Increment referral count
+          referredUsers: arrayUnion(user.uid), // Add user ID to the referred users array
+        });
+      }
+
       // Redirect to home
       router.push("/v2/home");
     } catch (err) {

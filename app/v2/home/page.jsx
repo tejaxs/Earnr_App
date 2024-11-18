@@ -14,7 +14,7 @@ const Home = () => {
   const [creators, setCreators] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [coin, setCoin] = useState(0);
-
+ const [amount,setAmount]=useState(0)
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
@@ -73,6 +73,29 @@ const Home = () => {
     };
 
     fetchCoin(); // Call the function to fetch user data
+  }, [user?.uid]); // Dependency array triggers only when user.uid changes
+  useEffect(() => {
+    const fetchAmount = async () => {
+      if (!user?.uid) return; // Early exit if user is not available
+
+      try {
+        const userRef = doc(db, "users", user.uid); // Using user.uid directly
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          // Ensure that the coin is a number
+          const AmountValue = Number(userData.amount) || 0; // Default to 0 if NaN
+          setAmount(AmountValue); // Set coin balance from the fetched data
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error); // Handle errors
+      } finally {
+        setLoading1(false);
+      }
+    };
+
+    fetchAmount(); // Call the function to fetch user data
   }, [user?.uid]); // Dependency array triggers only when user.uid changes
 
   useEffect(() => {
@@ -149,7 +172,7 @@ const Home = () => {
             <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
               <div className="flex flex-col gap-2 relative">
                 <div className="text-[40px] flex items-center">
-                  ₹ {coin}
+                  ₹ {amount}
                   {/* Eye button with tooltip */}
                   <button
                     ref={tooltipRef1}
@@ -157,11 +180,11 @@ const Home = () => {
                     onClick={() => setShowTooltip1(!showTooltip1)} // Mobile toggle
                   >
                     <div className="text-base flex items-center">
-                        <span className=" border-white border  w-[13px] h-[17px] text-[12px] bg-white  flex justify-center items-center">i</span>
+                        <span className=" border-white border  w-[17px] h-[17px] text-[12px] bg-white  flex justify-center items-center rounded-full">i</span>
                     </div>
                     {/* Tooltip */}
                     <div
-                      className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-max bg-black text-white text-sm rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
+                      className={`absolute top-full mt-2 md:left-1/2 md:ml-0 ml-8 transform -translate-x-1/2 md:w-max w-[270px] bg-black text-white  md:text-sm text-xs rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
                         showTooltip1
                           ? "opacity-100 visible"
                           : "opacity-0 invisible"
@@ -183,7 +206,7 @@ const Home = () => {
                     onClick={() => setShowTooltip(!showTooltip)} // Mobile toggle
                   >
                        <div className="text-base flex items-center">
-                        <span className=" border-white border  w-[13px] h-[17px] text-[12px] bg-white  flex justify-center items-center">i</span>
+                        <span className=" border-white border  w-[17px] h-[17px] text-[12px] rounded-full bg-white  flex justify-center items-center">i</span>
                     </div>
                     {/* Tooltip */}
                     <div

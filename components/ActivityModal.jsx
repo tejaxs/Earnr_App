@@ -42,7 +42,8 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
   }, [selectedActivity, user]);
 
   const handleStartActivity = async () => {
-    if (hasStarted || !isFollowing) return;
+    // if (hasStarted || !isFollowing) return;
+    if (hasStarted) return;
 
     try {
       // Reference to the specific activity document
@@ -60,6 +61,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
       });
 
       console.log("User ID added to startedActivity list");
+      handleClose();
     } catch (error) {
       console.error("Error starting activity:", error);
     }
@@ -91,7 +93,10 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
             />
             <div className="relative">
               <p className="absolute -right-6 top-3 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 ">
-              <ActivityTimer activityDate={selectedActivity?.activityDate} activityTime={selectedActivity?.time}/>
+                <ActivityTimer
+                  activityDate={selectedActivity?.activityDate}
+                  activityTime={selectedActivity?.time}
+                />
               </p>
             </div>
           </div>
@@ -112,10 +117,8 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
         </div>
 
         <div className="flex justify-center">
-            {hasCompleted ? (
-            <button
-              className="bg-[#4CAF50] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
-            >
+          {hasCompleted ? (
+            <button className="bg-[#4CAF50] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2">
               Completed
             </button>
           ) : hasStarted ? (
@@ -137,12 +140,17 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
               Start Activity
             </Link>
           ) : (
-            <button
-              disabled
-              className="bg-gray-400 border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
+            <Link
+              target="_blank"
+              href={selectedActivity?.postLink}
+              onClick={handleStartActivity}
+              // disabled
+              className="bg-[#FF4B4B] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
+              // className="bg-gray-400 border-2 border-white rounded-full urbanist-500 text-white px-8 py-2"
             >
-              Follow the Creator to Start
-            </button>
+              {/* Follow the Creator to Start */}
+              Start Activity
+            </Link>
           )}
         </div>
       </div>
