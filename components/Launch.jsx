@@ -14,7 +14,7 @@ const Launch = ({ open, handleClose }) => {
         <h2 className="text-[20px] text-[#FFCD48] poppins-600">Download Earnr</h2>
         <p className="text-sm">
           1. Tap the icon in top right corner of the browser and then select
-          Open Fanztar or Add to Home Screen
+          Open Earnr or Add to Home Screen
         </p>
         <p className="text-sm">
           2. If you have previously added the app, you can open it by tapping

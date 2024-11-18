@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import Launch from "./Launch";
-import Link from "next/link";
 
 const InstallButton = () => {
   const [isInstallable, setIsInstallable] = useState(false);
@@ -94,11 +93,12 @@ const InstallButton = () => {
             GET APP
           </button>
         ) : (
-          <Link href={"https://app.earnr.live/login"}
+          <button
+            onClick={handleLaunchClick}
             className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
           >
             Launch App
-          </Link>
+          </button>
         )}
         <Launch open={open} handleClose={handleClose} />
       </div>
