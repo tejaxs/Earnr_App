@@ -1,23 +1,22 @@
 {
-    "name": "Earnr",
-    "short_name": "Earnr",
-    "description": "A web app that behaves like a mobile app.",
-    "icons": [
-      {
-        "src": "/whitelogo.png",
-        "type": "image/png",
-        "sizes": "192x192"
-      },
-      {
-        "src": "/whitelogo.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }
-    ],
-    "start_url": "/",
-    "background_color": "#000000",
-    "theme_color": "#ffffff",
-    "display": "standalone",
-    "orientation": "portrait-primary"
-  }
-  
+  "name": "Earnr",
+  "short_name": "Earnr",
+  "description": "A web app that behaves like a mobile app.",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#000000",
+  "display": "standalone",
+  "orientation": "portrait-primary"
+}

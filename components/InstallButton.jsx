@@ -56,7 +56,7 @@ const InstallButton = () => {
         <div onClick={handleClose} className="poppins-600">
           X
         </div>
-        <p className="text-sm border poppins-600">GET Web App for easy access</p>
+        <p className="text-sm poppins-600">GET Web App for easy access</p>
         <button
           onClick={handleInstallClick}
           className="bg-[#FFCD48] text-white px-2 py-1 rounded text-sm poppins-600"
