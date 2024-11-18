@@ -69,7 +69,7 @@ const InstallButton = () => {
   };
 
   const handleLaunchClick = () => {
-    setOpen(true);
+    window.location.href = "/";
   };
 
   const handleClosee = () => {

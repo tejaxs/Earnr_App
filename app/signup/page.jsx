@@ -110,6 +110,8 @@ const Signup = () => {
         });
       }
 
+      
+
       // Redirect to home
       router.push("/v2/home");
     } catch (err) {
