@@ -47,6 +47,7 @@ const Navbar = () => {
         >
           Be a Creator!
         </button>
+        
       </div>
       <Link href={"/account"} className="flex items-center">
         <span className="bg-[#f4f3fc6a] px-3 rounded-l-xl">Free</span>

@@ -4,18 +4,18 @@
     "description": "A web app that behaves like a mobile app.",
     "icons": [
       {
-        "src": "/earnr_5@4x 1.png",
+        "src": "/whitelogo.png",
         "type": "image/png",
         "sizes": "192x192"
       },
       {
-        "src": "/earnr_5@4x 1.png",
+        "src": "/whitelogo.png",
         "type": "image/png",
         "sizes": "512x512"
       }
     ],
     "start_url": "/",
-    "background_color": "#ffffff",
+    "background_color": "#111111",
     "theme_color": "#000000",
     "display": "standalone",
     "orientation": "portrait-primary"

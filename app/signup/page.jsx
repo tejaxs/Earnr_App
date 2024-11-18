@@ -140,6 +140,7 @@ const Signup = () => {
   // if(user)return router.push("/v2/home");
   return (
     <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">
+      
       <div className="text-center flex flex-col gap-2">
         <h2 className="text-[20px]">Create Account</h2>
         <p>Fill your information below or register
