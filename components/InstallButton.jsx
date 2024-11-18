@@ -1,15 +1,34 @@
 "use client";
 import { useEffect, useState } from "react";
 import Launch from "./Launch";
+import LaunchIOS from "./LaunchIOS";
 
 const InstallButton = () => {
   const [isInstallable, setIsInstallable] = useState(false);
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isVisible, setIsVisible] = useState(true);
   const [isStandalone, setIsStandalone] = useState(false);
+  const [platform, setPlatform] = useState("Android");
 
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+  const [open1, setOpen1] = useState(false);
+  const handleClose1 = () => setOpen1(false);
+  useEffect(() => {
+    const detectPlatform = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if (/android/i.test(userAgent)) {
+        setPlatform("Android");
+      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        setPlatform("iOS");
+      } else {
+        setPlatform("Other");
+      }
+    };
+    detectPlatform();
+  }, []);
+  console.log(platform);
 
   useEffect(() => {
     // Check if the app is already in standalone mode
@@ -78,29 +97,38 @@ const InstallButton = () => {
 
   return (
     isVisible && (
-      <div
-      // className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg md:hidden flex text-black items-center justify-between"
-      >
-        {/* <div onClick={handleClosee} className="poppins-600 cursor-pointer">
-           X
-         </div>
-         <p className="text-xs poppins-600">GET Web App for easy access</p> */}
-        {isInstallable && !isStandalone ? (
-          <button
-            onClick={handleInstallClick}
-            className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
-          >
-            GET APP
-          </button>
+      <div>
+        {platform === "iOS" ? (
+          <div>
+            <button
+                onClick={()=>setOpen1(true)}
+                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+              >
+                GET APP
+              </button>
+          </div>
         ) : (
-          <button
-            onClick={handleLaunchClick}
-            className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
-          >
-            Launch App
-          </button>
+          <div>
+            {isInstallable && !isStandalone ? (
+              <button
+                onClick={handleInstallClick}
+                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+              >
+                GET APP
+              </button>
+            ) : (
+              <button
+                onClick={handleLaunchClick}
+                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+              >
+                Launch App
+              </button>
+            )}
+          </div>
         )}
+
         <Launch open={open} handleClose={handleClose} />
+        <LaunchIOS open1={open1} handleClose1={handleClose1} />
       </div>
     )
   );
