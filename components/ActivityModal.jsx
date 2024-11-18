@@ -66,6 +66,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
       console.error("Error starting activity:", error);
     }
   };
+  console.log(selectedActivity?.bgimage);
 
   return (
     <Modal
@@ -76,7 +77,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
       className=" flex justify-center"
     >
       <div
-        className="flex flex-col justify-between absolute z-10 top-10 h-5/6 bg-white text-black md:w-[350px] w-10/12 rounded-xl py-4 border-none"
+        className="flex  flex-col justify-between relative z-10 top-10 h-5/6 bg-white text-black md:w-[350px] w-10/12 rounded-xl py-4 border-none"
         style={{
           backgroundImage: `url(${selectedActivity?.bgimage})`,
           backgroundSize: "cover",
@@ -84,7 +85,12 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
           backgroundRepeat: "no-repeat",
         }}
       >
-        <div className="flex justify-between m-2 p-3 bg-white rounded-3xl">
+        <img
+          src={selectedActivity?.bgimage}
+          alt="Background"
+          className="absolute inset-0 h-full w-full object-cover rounded-xl z-0 border-2 "
+        />
+        <div className=" relative flex justify-between m-2 p-3 bg-gray-300 rounded-3xl z-30">
           <div>
             <img
               src={selectedActivity?.icon}
@@ -92,7 +98,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
               className="w-[42px] h-[46px]"
             />
             <div className="relative">
-              <p className="absolute -right-6 top-3 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 ">
+              <p className="absolute -right-6 md:top-3 top-1 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 ">
                 <ActivityTimer
                   activityDate={selectedActivity?.activityDate}
                   activityTime={selectedActivity?.time}
@@ -116,7 +122,7 @@ const ActivityModal = ({ open, handleClose, selectedActivity }) => {
           </div>
         </div>
 
-        <div className="flex justify-center">
+        <div className="relative flex justify-center z-20">
           {hasCompleted ? (
             <button className="bg-[#4CAF50] border-2 border-white rounded-full urbanist-500 text-white px-8 py-2">
               Completed
