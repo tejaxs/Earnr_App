@@ -4,19 +4,19 @@
   "description": "A web app that behaves like a mobile app.",
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/whitelogo.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo.png",
+      "src": "/whitelogo.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
   "start_url": "/",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#000000", 
+  "theme_color": "#ffffff",  
   "display": "standalone",
   "orientation": "portrait-primary"
 }
