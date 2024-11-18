@@ -26,7 +26,6 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="icon" href="/whitelogo.png" />
-
         <meta name="theme-color" content="#000000" />
         <meta name="description" content="Earnr" />
       </head>
