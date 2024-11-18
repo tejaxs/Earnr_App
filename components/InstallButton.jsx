@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 
 const InstallButton = () => {
@@ -47,17 +48,18 @@ const InstallButton = () => {
   const handleClose = () => {
     setIsVisible(false); // Close the install prompt row
   };
-
+  console.log(isInstallable,isVisible);
+  
   return (
     isInstallable && isVisible && (
-      <div className="fixed top-0 left-0 w-full p-4 bg-white shadow-lg flex flex-col items-center space-y-4">
-        <button onClick={handleClose} className="absolute top-2 right-2 text-xl">
+      <div className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg flex  text-black items-center justify-between">
+        <div onClick={handleClose} className="poppins-600">
           X
-        </button>
-        <p className="text-lg">GET Web App for easy access</p>
+        </div>
+        <p className="text-sm border poppins-600">GET Web App for easy access</p>
         <button
           onClick={handleInstallClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-[#FFCD48] text-white px-2 py-1 rounded text-sm poppins-600"
         >
           GET APP
         </button>
