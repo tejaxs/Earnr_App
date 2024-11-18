@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import Launch from "./Launch";
+import Link from "next/link";
 
 const InstallButton = () => {
   const [isInstallable, setIsInstallable] = useState(false);
@@ -15,7 +16,10 @@ const InstallButton = () => {
     // Check if the app is already in standalone mode
     const checkStandalone = () => {
       // For iOS (Safari)
-      if (window.matchMedia("(display-mode: standalone)").matches || navigator.standalone) {
+      if (
+        window.matchMedia("(display-mode: standalone)").matches ||
+        navigator.standalone
+      ) {
         setIsStandalone(true); // The app is already installed and launched in standalone mode
       } else {
         setIsStandalone(false); // The app is not in standalone mode
@@ -37,7 +41,10 @@ const InstallButton = () => {
 
     // Clean up the event listeners
     return () => {
-      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
       window.removeEventListener("resize", checkStandalone);
     };
   }, []);
@@ -63,7 +70,7 @@ const InstallButton = () => {
   };
 
   const handleLaunchClick = () => {
-    setOpen(true)
+    setOpen(true);
   };
 
   const handleClosee = () => {
@@ -72,28 +79,28 @@ const InstallButton = () => {
 
   return (
     isVisible && (
-      <div className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg md:hidden flex text-black items-center justify-between">
-        <div onClick={handleClosee} className="poppins-600 cursor-pointer">
-          X
-        </div>
-        <p className="text-xs poppins-600">GET Web App for easy access</p>
+      <div
+      // className="fixed top-0 left-0 w-full px-2 py-2 bg-white shadow-lg md:hidden flex text-black items-center justify-between"
+      >
+        {/* <div onClick={handleClosee} className="poppins-600 cursor-pointer">
+           X
+         </div>
+         <p className="text-xs poppins-600">GET Web App for easy access</p> */}
         {isInstallable && !isStandalone ? (
           <button
             onClick={handleInstallClick}
-            className="bg-[#FFCD48] text-white px-2 py-1 rounded text-sm poppins-600"
+            className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
           >
             GET APP
           </button>
         ) : (
-          <button
-            onClick={handleLaunchClick}
-            className="bg-[#48A2FF] text-white px-2 py-1 rounded text-sm poppins-600"
+          <Link href={"https://app.earnr.live/"}
+            className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
           >
             Launch App
-          </button>
+          </Link>
         )}
-        <Launch open={open}
-        handleClose={handleClose}/>
+        <Launch open={open} handleClose={handleClose} />
       </div>
     )
   );
