@@ -20,16 +20,16 @@ const Withdraw = ({ setShowModal }) => {
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
-        const currentCoins = userDoc.data().coin || 0;
+        const currentCoins = userDoc.data().amount || 0;
 
         if (currentCoins < coinsToWithdraw || coinsToWithdraw <= 0) {
-          toast.error("Insufficient coins for withdrawal");
+          toast.error("Insufficient amount for withdrawal");
           return;
         }
 
         // Proceed with withdrawal request and coin update
         await addDoc(collection(db, "WithDraw"), { email,phone, upi, coinsToWithdraw });
-        await updateDoc(userDocRef, { coin: increment(-coinsToWithdraw) });
+        await updateDoc(userDocRef, { amount: increment(-coinsToWithdraw) });
 
         toast.success("Money will be credited shortly");
         
@@ -46,7 +46,7 @@ const Withdraw = ({ setShowModal }) => {
   return (
     <div className="fixed inset-0 px-4 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white w-full poppins-400 max-w-lg p-3 rounded-lg overflow-y-auto max-h-[80vh]">
-        <h2 className="text-xl poppins-700 mb-4 text-black">Withdraw Earnr Coins</h2>
+        <h2 className="text-xl poppins-700 mb-4 text-black">Withdraw Amount</h2>
         <form onSubmit={handleFormSubmit} className="space-y-4 text-black">
           {/* Prepopulate email field */}
           <input
