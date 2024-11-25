@@ -52,35 +52,33 @@ const Account = () => {
     fetchCoin(); // Call the function to fetch user data
   }, [user?.uid]);
 
-  const [minValue,setMinValue]=useState(0);
-  const [maxValue,setMaxValue]=useState(200);
+  const [minValue, setMinValue] = useState(0);
+  const [maxValue, setMaxValue] = useState(200);
   const [level, setLevel] = useState("Level 1");
   useEffect(() => {
     // Check the coin range and set level accordingly
     if (value >= 0 && value < 500) {
       setLevel("Level 1");
-      setMinValue(0)
-      setMaxValue(500)
+      setMinValue(0);
+      setMaxValue(500);
     } else if (value >= 500 && value < 1500) {
       setLevel("Level 2");
-      setMinValue(500)
-      setMaxValue(1500)
+      setMinValue(500);
+      setMaxValue(1500);
     } else if (value >= 1500 && value <= 3000) {
       setLevel("Level 3");
-      setMinValue(1500)
-      setMaxValue(3000)
-    }else if (value >= 3000 && value <= 5000) {
+      setMinValue(1500);
+      setMaxValue(3000);
+    } else if (value >= 3000 && value <= 5000) {
       setLevel("Level 4");
-      setMinValue(3000)
-      setMaxValue(5000)
-    }
-    else if (value >= 5000 && value <= 8000) {
+      setMinValue(3000);
+      setMaxValue(5000);
+    } else if (value >= 5000 && value <= 8000) {
       setLevel("Level 5");
-      setMinValue(5000)
-      setMaxValue(8000)
+      setMinValue(5000);
+      setMaxValue(8000);
     }
   }, [value]);
-
 
   // const minValue = 0;
   // const maxValue = 200;
@@ -113,7 +111,12 @@ const Account = () => {
             <div className="flex justify-center text-[18px] poppins-600 relative top-6">
               <div className="flex gap-4 p-2 px-4 rounded-3xl bg-[#1B1A18]">
                 <div className="flex gap-2 items-center">
-                <img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" /><p>{value}</p>
+                  <img
+                    src="/whitelogo.png"
+                    alt=""
+                    className="w-[20px]  h-[16px]"
+                  />
+                  <p>{value}</p>
                 </div>
                 <div>|</div>
                 <div>{level}</div>
@@ -132,8 +135,22 @@ const Account = () => {
                   }}
                 />
                 <div className="w-full flex justify-between poppins-600 ">
-                  <span className="flex items-center gap-1"><img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" />{minValue}</span>
-                  <span className="flex items-center gap-1"><img src="/whitelogo.png" alt="" className="w-[20px]  h-[16px]" />{maxValue}</span>
+                  <span className="flex items-center gap-1">
+                    <img
+                      src="/whitelogo.png"
+                      alt=""
+                      className="w-[20px]  h-[16px]"
+                    />
+                    {minValue}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <img
+                      src="/whitelogo.png"
+                      alt=""
+                      className="w-[20px]  h-[16px]"
+                    />
+                    {maxValue}
+                  </span>
                 </div>
               </div>
               <div className="h-[1px] mt-6 w-full bg-[#CACACA]"></div>
@@ -221,6 +238,51 @@ const Account = () => {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="flex justify-center md:gap-10 gap-14 w-full p-4">
+              <a
+                target="_blank"
+                href={"https://www.instagram.com/earnr.live/"}
+                className="flex flex=col justify-center items-center cursor-pointer"
+              >
+                <img
+                  className=" w-[25px] h-[25px]"
+                  src="/Group 22.png"
+                  alt="Instagram"
+                />
+              </a>
+              <a
+                target="_blank"
+                href="https://www.linkedin.com/company/earnr-live/"
+                className="flex flex=col justify-center items-center cursor-pointer"
+              >
+                <img
+                  className=" w-[25px] h-[25px]"
+                  src="/providers-list.png"
+                  alt="LinkedIn"
+                />
+              </a>
+              <a
+                target="_blank"
+                href="https://x.com/Earnr_live"
+                className="flex flex=col justify-center items-center cursor-pointer"
+              >
+                <img
+                  className=" w-[25px] h-[25px]"
+                  src="/Group 23.png"
+                  alt="Twitter"
+                />
+              </a>
+              <a
+                href="mailto:contact@earnr.live"
+                className="flex flex=col justify-center items-center cursor-pointer"
+              >
+                <img
+                  className=" w-[25px] h-[25px]"
+                  src="/Layer 2.png"
+                  alt="Email"
+                />
+              </a>
             </div>
           </div>
         </ProtectedRoute>

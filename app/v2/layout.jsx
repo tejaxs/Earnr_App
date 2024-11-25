@@ -30,7 +30,7 @@ const layout = ({ children }) => {
           />
           <p className={` poppins-600 text-[10px]`}>Creators</p>
         </Link>
-        <Link href={"/v2/activity?cat=All"} className="flex flex-col gap-1 items-center justify-center">
+        <Link href={"/v2/activity?cat=My%20Activities"} className="flex flex-col gap-1 items-center justify-center">
           <img
             src={`${
               pathname == "/v2/activity"

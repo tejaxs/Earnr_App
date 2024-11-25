@@ -76,7 +76,10 @@ const Activity = () => {
     return () => getActivities();
   }, [user]);
 
-  const categories = ["All", "My Activities"]; // Adding 'Activity' for followed creators
+  const categories = [
+    // "All",
+    "My Activities",
+  ]; // Adding 'Activity' for followed creators
 
   const handleCategoryClick = (category) => {
     router.push(`/v2/activity?cat=${category}`);
@@ -150,7 +153,8 @@ const Activity = () => {
           >
             {loading ? (
               <Loader /> // Show loader when loading
-            ) : (
+            ) : displayedActivities.filter((da) => da.status === "pending")
+                .length > 0 ? (
               displayedActivities
                 .filter((da) => da.status === "pending")
                 .map((da, i) => (
@@ -160,7 +164,7 @@ const Activity = () => {
                     className="md:w-[230px] w-[140px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
                   >
                     <div className="relative">
-                      <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
+                      <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1">
                         <ActivityTimer
                           activityDate={da?.activityDate}
                           activityTime={da?.time}
@@ -192,6 +196,20 @@ const Activity = () => {
                     </div>
                   </div>
                 ))
+            ) : (
+              <div className="md:w-[210px] w-[200px] cursor-default snap-center bg-black text-white rounded-lg shadow-lg border border-gray-300 flex flex-col gap-4 items-center justify-center p-2">
+                <img
+                  src="/not-found.png"
+                  alt=".."
+                  className="rounded-t-lg w-full md:h-[130px] h-[100px]"
+                />
+                <p className="urbanist-700 md:text-[18px] text-[16px] text-center">
+                  No activities available
+                </p>
+                <p className="urbanist-500 text-[14px] text-center">
+                  You don’t follow any creators yet.
+                </p>
+              </div>
             )}
           </div>
         </div>

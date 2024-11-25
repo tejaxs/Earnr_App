@@ -36,7 +36,7 @@ const Navbar = () => {
           Creator
         </Link>
         <Link
-          href={"/v2/activity?cat=All"}
+          href={"/v2/activity?cat=My%20Activities"}
           className="lg:text-[20px] text-[15px] hover:border-b border-white px-2 urbanist-500"
         >
           Activity
