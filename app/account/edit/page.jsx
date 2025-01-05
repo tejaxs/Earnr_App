@@ -2,29 +2,28 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import ProtectedRoute from "@/components/ProtectedRoutes";
-import useAuth from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import { updateProfile } from "firebase/auth";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "@/firebase/firebaseConfig"; // Ensure you export `storage` from your Firebase config
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "@/context/AuthContext";
 
 const EditProfile = () => {
   const { user } = useAuth();
   const router = useRouter();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [number, setNumber] = useState("");
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(photoURL);
 
   useEffect(() => {
-    if (user) {
-      setName(user.displayName || "");
-      setEmail(user.email || "");
+    if (user?.uid) {
+      setName(user?.name || "");
+      setNumber(user?.phoneNumber || "");
       setPreviewImage(user.photoURL || "/person.png");
     }
   }, [user]);
@@ -78,12 +77,6 @@ const EditProfile = () => {
       const updatedPhotoURL = await uploadImage();
 
       // Update Firebase Authentication profile
-      if (user) {
-        await updateProfile(user, {
-          displayName: name,
-          photoURL: updatedPhotoURL,
-        });
-      }
 
       // Update Firestore document
       const userRef = doc(db, "users", user.uid);
@@ -151,11 +144,11 @@ const EditProfile = () => {
               />
             </div>
             <div className="flex flex-col gap-3">
-              <label className="urbanist-700 text-[14px]">Email</label>
+              <label className="urbanist-700 text-[14px]">Phone Number</label>
               <input
                 type="text"
-                placeholder="Add Email"
-                value={email}
+                placeholder="Phone Number"
+                value={number}
                 readOnly
                 className="px-2 py-1 read-only:bg-gray-300 placeholder:font-semibold urbanist-700 text-black rounded-xl"
               />

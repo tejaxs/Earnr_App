@@ -9,6 +9,7 @@ import {
 import { auth, db } from "@/firebase/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useAuth } from "@/context/AuthContext";
 
 const FollowComponent = ({
   creatorId,
@@ -17,20 +18,10 @@ const FollowComponent = ({
   following,
   setFollowing,
 }) => {
-  const [user, setUser] = useState(null);
+  const { user } = useAuth();
 
   useEffect(() => {
-    // Monitor auth state to set the user
-    const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-        await checkFollowingStatus(currentUser.uid);
-      } else {
-        setUser(null);
-        setFollowing(false);
-      }
-    });
-    return unsubscribe;
+    checkFollowingStatus(user?.uid);
   }, [creatorId]);
 
   // Function to check if user is following the creator
@@ -47,9 +38,9 @@ const FollowComponent = ({
 
   // Function to handle follow
   const handleFollow = async () => {
-    if (!user) return;
+    if (!user?.uid) return;
 
-    const userDocRef = doc(db, "users", user.uid);
+    const userDocRef = doc(db, "users", user?.uid);
 
     // Get the user's current following array
     const userDoc = await getDoc(userDocRef);
@@ -75,7 +66,7 @@ const FollowComponent = ({
     await setDoc(
       creatorDocRef,
       {
-        followers: arrayUnion(user.uid),
+        followers: arrayUnion(user?.uid),
         followerCount: followerCount + 1,
       },
       { merge: true }
@@ -108,10 +99,10 @@ const FollowComponent = ({
 
   // Function to handle unfollow
   const handleUnfollow = async () => {
-    if (!user) return;
+    if (!user?.uid) return;
 
     const creatorDocRef = doc(db, "creators", creatorId);
-    const userDocRef = doc(db, "users", user.uid);
+    const userDocRef = doc(db, "users", user?.uid);
 
     // Update creator's followers and follower count
     await setDoc(

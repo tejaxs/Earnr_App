@@ -1,5 +1,6 @@
+import { useAuth } from "@/context/AuthContext";
 import { db } from "@/firebase/firebaseConfig";
-import useAuth from "@/hooks/useAuth";
+// import useAuth from "@/hooks/useAuth";
 import { addDoc, collection, doc, getDoc, updateDoc, increment } from "firebase/firestore";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
@@ -7,11 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Withdraw = ({ setShowModal }) => {
   const { user } = useAuth();
-
+  console.log(user);
+  
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const email = user.email; 
-    const phone = e.target.phone.value; 
+    const phone = user?.phoneNumber; 
     const upi = e.target.upi.value;
     const coinsToWithdraw = parseInt(e.target.coins.value, 10);
 
@@ -20,16 +21,15 @@ const Withdraw = ({ setShowModal }) => {
       const userDoc = await getDoc(userDocRef);
 
       if (userDoc.exists()) {
-        const currentCoins = userDoc.data().amount || 0;
-
+        const currentCoins = parseFloat(userDoc.data().amount) || 0;
         if (currentCoins < coinsToWithdraw || coinsToWithdraw <= 0) {
           toast.error("Insufficient amount for withdrawal");
           return;
         }
 
         // Proceed with withdrawal request and coin update
-        await addDoc(collection(db, "WithDraw"), { email,phone, upi, coinsToWithdraw });
-        await updateDoc(userDocRef, { amount: increment(-coinsToWithdraw) });
+        await addDoc(collection(db, "WithDraw"), { phone, upi, coinsToWithdraw });
+        await updateDoc(userDocRef, { amount: currentCoins-coinsToWithdraw });
 
         toast.success("Money will be credited shortly");
         
@@ -49,14 +49,14 @@ const Withdraw = ({ setShowModal }) => {
         <h2 className="text-xl poppins-700 mb-4 text-black">Withdraw Amount</h2>
         <form onSubmit={handleFormSubmit} className="space-y-4 text-black">
           {/* Prepopulate email field */}
-          <input
+          {/* <input
             type="email"
             name="email"
             value={user?.email || ""}
             readOnly
             required
             className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
-          />
+          /> */}
           <input
             type="text"
             name="upi"
@@ -67,9 +67,10 @@ const Withdraw = ({ setShowModal }) => {
           <input
             type="tel"
             name="phone"
+            value={user?.phoneNumber || ""}
             placeholder="Enter Phone Number"
             required
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className="w-full p-2 border border-gray-300 rounded-md bg-gray-100"
           />
           <input
             type="tel"

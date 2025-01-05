@@ -6,8 +6,9 @@ import { collection, onSnapshot, doc, getDoc } from "firebase/firestore";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import useAuth from "@/hooks/useAuth";
+// import useAuth from "@/hooks/useAuth";
 import Loader from "@/components/Loader"; // Assuming Loader component is imported from this path
+import { useAuth } from "@/context/AuthContext";
 
 const Activity = () => {
   const router = useRouter();

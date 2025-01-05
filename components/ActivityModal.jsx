@@ -1,10 +1,11 @@
 import { db } from "@/firebase/firebaseConfig";
-import useAuth from "@/hooks/useAuth";
+// import useAuth from "@/hooks/useAuth";
 import { Modal } from "@mui/material";
 import { arrayUnion, doc, getDoc, updateDoc } from "firebase/firestore";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import ActivityTimer from "./ActivityTimer";
+import { useAuth } from "@/context/AuthContext";
 
 const ActivityModal = ({ open, handleClose, selectedActivity }) => {
   const { user } = useAuth();

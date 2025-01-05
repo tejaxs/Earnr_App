@@ -3,8 +3,9 @@ import BeCreatorform from "@/components/BeCreatorform";
 import Loader from "@/components/Loader";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import Withdraw from "@/components/WithDraw";
+import { useAuth } from "@/context/AuthContext";
 import { db } from "@/firebase/firebaseConfig";
-import useAuth from "@/hooks/useAuth";
+
 import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";

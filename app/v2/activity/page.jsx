@@ -4,12 +4,14 @@ import ActivityTimer from "@/components/ActivityTimer";
 import withSuspense from "@/components/Suspense";
 import Loader from "@/components/Loader"; // Import the Loader component
 import { db } from "@/firebase/firebaseConfig";
-import useAuth from "@/hooks/useAuth";
+// import useAuth from "@/hooks/useAuth";
 import { Modal } from "@mui/material";
 import { collectionGroup, onSnapshot, doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import VerifyInstagramCard from "@/components/VerifyInstagramCard";
+import { useAuth } from "@/context/AuthContext";
 
 const Activity = () => {
   const router = useRouter();
@@ -79,6 +81,7 @@ const Activity = () => {
   const categories = [
     // "All",
     "My Activities",
+    // "Earnr Activities"
   ]; // Adding 'Activity' for followed creators
 
   const handleCategoryClick = (category) => {
@@ -213,6 +216,7 @@ const Activity = () => {
             )}
           </div>
         </div>
+        {/* <VerifyInstagramCard/> */}
       </div>
       <ActivityModal
         open={open}

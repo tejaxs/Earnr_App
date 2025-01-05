@@ -1,25 +1,33 @@
-// firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
-// Your web app's Firebase configuration
+
+// Initialize Firebase config
 const firebaseConfig = {
-    apiKey: "AIzaSyBDv_yMJC6B4WxF96K8YVjEveM_iFPe4gM",
-    authDomain: "earn-ea4bc.firebaseapp.com",
-    projectId: "earn-ea4bc",
-    storageBucket: "earn-ea4bc.appspot.com",
-    messagingSenderId: "1066381293991",
-    appId: "1:1066381293991:web:7b115b531db3304ac65e82",
-    measurementId: "G-WCWWFFQJ4S"
-  };
-  
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_MEASUREMENT_ID,
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// Export Firebase services
 export const db = getFirestore(app);
-// Export the authentication instance
 export const auth = getAuth(app);
 export const storage = getStorage(app);
 
+// Conditionally load Firebase Messaging for client-side only
+// let messaging;
+// if (typeof window !== 'undefined') {
+//   // Ensure we're in the browser environment
+//   const { getMessaging } = require('firebase/messaging');
+//   messaging = getMessaging(app);
+// }
 
+// export { messaging };

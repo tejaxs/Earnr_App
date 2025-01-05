@@ -1,8 +1,8 @@
 "use client";
-import useAuth from "@/hooks/useAuth";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import BeCreatorform from "./BeCreatorform";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const { user } = useAuth();
