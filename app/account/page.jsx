@@ -1,4 +1,5 @@
 "use client";
+import BeCreatorform from "@/components/BeCreatorform";
 import Loader from "@/components/Loader";
 import Navbar from "@/components/Navbar";
 import ProtectedRoute from "@/components/ProtectedRoutes";
@@ -18,6 +19,8 @@ const Account = () => {
 
   const router = useRouter();
   const [loading1, setLoading1] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+
   const handleLogout = async () => {
     try {
       await logout();
@@ -194,6 +197,18 @@ const Account = () => {
               <div className="mt-6">
                 <h2 className="poppins-600 text-[18px] text-[#CACACA]">More</h2>
                 <div className="poppins-600 flex flex-col gap-3 mt-4">
+                  <button
+                    onClick={()=>setShowModal(!showModal)}
+                    className="flex items-center justify-between"
+                  >
+                    {" "}
+                    <p>Be a Creator</p>
+                    <img
+                      src="/front.png"
+                      alt=""
+                      className="w-[7px] h-[12px]"
+                    />{" "}
+                  </button>
                   <Link
                     href={"/account/about"}
                     className="flex items-center justify-between"
@@ -335,6 +350,7 @@ const Account = () => {
           </div>
         </ProtectedRoute>
       )}
+      {showModal && <BeCreatorform setShowModal={setShowModal} />}
     </div>
   );
 };

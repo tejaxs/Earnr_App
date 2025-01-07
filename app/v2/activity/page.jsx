@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import VerifyInstagramCard from "@/components/VerifyInstagramCard";
 import { useAuth } from "@/context/AuthContext";
+import VerifyInstagram from "@/components/VerifyInstagram";
 
 const Activity = () => {
   const router = useRouter();
@@ -81,7 +82,7 @@ const Activity = () => {
   const categories = [
     // "All",
     "My Activities",
-    // "Earnr Activities"
+    "Earnr Activities",
   ]; // Adding 'Activity' for followed creators
 
   const handleCategoryClick = (category) => {
@@ -94,7 +95,7 @@ const Activity = () => {
       ? userActivities
       : cat === "My Activities"
       ? [...new Set([...userActivities, ...followedActivities])]
-      : activities;
+      : [];
 
   const [value, setValue] = useState(0);
   useEffect(() => {
@@ -200,24 +201,33 @@ const Activity = () => {
                   </div>
                 ))
             ) : (
-              <div className="md:w-[210px] w-[200px] cursor-default snap-center bg-black text-white rounded-lg shadow-lg border border-gray-300 flex flex-col gap-4 items-center justify-center p-2">
-                <img
-                  src="/not-found.png"
-                  alt=".."
-                  className="rounded-t-lg w-full md:h-[130px] h-[100px]"
-                />
-                <p className="urbanist-700 md:text-[18px] text-[16px] text-center">
-                  No activities available
-                </p>
-                <p className="urbanist-500 text-[14px] text-center">
-                  You don’t follow any creators yet.
-                </p>
+              <div>
+                {cat != "Earnr Activities" && (
+                  <div className="md:w-[210px] w-[200px] cursor-default snap-center bg-black text-white rounded-lg shadow-lg border border-gray-300 flex flex-col gap-4 items-center justify-center p-2">
+                    <img
+                      src="/not-found.png"
+                      alt=".."
+                      className="rounded-t-lg w-full md:h-[130px] h-[100px]"
+                    />
+                    <p className="urbanist-700 md:text-[18px] text-[16px] text-center">
+                      No activities available
+                    </p>
+                    <p className="urbanist-500 text-[14px] text-center">
+                      You don’t follow any creators yet.
+                    </p>
+                  </div>
+                )}
               </div>
             )}
           </div>
         </div>
-        {/* <VerifyInstagramCard/> */}
       </div>
+      <div className="flex justify-center">
+        {cat === "Earnr Activities" && !loading && (
+          <VerifyInstagram userId={user?.uid} />
+        )}
+      </div>
+
       <ActivityModal
         open={open}
         handleClose={handleClose}

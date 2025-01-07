@@ -39,21 +39,22 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         setOtpSent(true);
+        setLoading(false);
         toast.success(data.message || "OTP sent successfully");
       } else {
         const errorData = await response.json();
+        setLoading(false);
         toast.error(errorData.message || "Failed to send OTP");
       }
     } catch (err) {
-      toast.error("Error sending OTP: " + err.message);
-    } finally {
       setLoading(false);
+      toast.error("Error sending OTP: " + err.message);
     }
   };
 
   const handleVerifyOtp = async () => {
     setLoading(true);
-  
+
     try {
       const response = await fetch("/api/signin", {
         method: "POST",
@@ -65,28 +66,28 @@ const Login = () => {
           otp,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setUser(data.user);
         router.push("/v2/creator");
       } else {
         const errorData = await response.json();
+        setLoading(false);
         toast.error(errorData.message || "SignIn failed");
       }
     } catch (err) {
-      toast.error("SignIn failed: " + err.message);
-    } finally {
       setLoading(false);
+      toast.error("SignIn failed: " + err.message);
     }
   };
-  
+
   if (loading)
     return (
       <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">
         <Loader />
       </div>
-    ); 
+    );
 
   return (
     <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">

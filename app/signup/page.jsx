@@ -49,16 +49,17 @@ const Signup = () => {
       if (response.ok) {
         const data = await response.json();
         setIsOtpSent(true);
+        setLoading(false);
         toast.success(data.message || "OTP sent successfully");
       } else {
         const errorData = await response.json();
+        setLoading(false);
         toast.error(errorData.message || "Failed to send OTP");
       }
     } catch (err) {
-      toast.error("Error sending OTP: " + err.message);
-    } finally {
       setLoading(false);
-    }
+      toast.error("Error sending OTP: " + err.message);
+    } 
   };
   
 
@@ -85,12 +86,12 @@ const Signup = () => {
         router.push("/v2/creator");
       } else {
         const errorData = await response.json();
+        setLoading(false);
         toast.error(errorData.message || "Signup failed");
       }
     } catch (err) {
-      toast.error("SignUp failed: " + err.message);
-    } finally {
       setLoading(false);
+      toast.error("SignUp failed: " + err.message);
     }
   };
   

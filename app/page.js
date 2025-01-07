@@ -1,11 +1,25 @@
 "use client";
 import InstallButton from "@/components/InstallButton";
+import Loader from "@/components/Loader";
+import { useAuth } from "@/context/AuthContext";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Home() {
+  const {user}=useAuth();
   const [web, setWeb] = useState(true);
+  const router = useRouter();
+  const [loading,setLoading]=useState(true);
+
+  useEffect(() => {
+    if (user?.uid) {
+      router.push("/v2/creator?cat=All");
+    } else {
+      setLoading(false);
+    }
+  }, [user, router]);
 
   useEffect(() => {
     const isStandalone = window.matchMedia(
@@ -18,6 +32,13 @@ export default function Home() {
       setWeb(true);
     }
   }, []);
+
+  if (loading)
+    return (
+      <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-5">
+        <Loader />
+      </div>
+    ); 
   return (
     <div className="bg-black w-full h-screen text-white px-3 flex flex-col items-center justify-center gap-10">
       {/* <div>
