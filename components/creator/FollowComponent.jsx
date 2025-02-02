@@ -148,14 +148,14 @@ const FollowComponent = ({
       {following ? (
         <button
           onClick={handleUnfollow}
-          className="px-8 py-1 rounded-lg poppins-700 bg-black text-[#FFFFFF]"
+          className="px-8 py-1 rounded-lg poppins-700 bg-white text-[#8C00FF]"
         >
           Following
         </button>
       ) : (
         <button
           onClick={handleFollow}
-          className="px-8 py-1 rounded-lg poppins-700 bg-[#FFFFFF] text-black"
+          className="px-8 py-1 rounded-lg poppins-700 bg-[#8C00FF] text-white"
         >
           Follow
         </button>

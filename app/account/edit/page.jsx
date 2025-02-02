@@ -117,7 +117,7 @@ const EditProfile = () => {
                 alt="Profile"
                 className="relative bg-black right-2 w-[126px] h-[126px] rounded-full object-cover"
               />
-              <div className="p-2 bg-[#DCA546] rounded-[8px] absolute bottom-4 right-2">
+              <div className="p-2 bg-[#8C00FF] rounded-[8px] absolute bottom-4 right-2">
                 <label htmlFor="fileInput">
                   <img src="/edit.png" alt="Edit" className="w-[13px] h-[13px] cursor-pointer" />
                 </label>
@@ -156,7 +156,7 @@ const EditProfile = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={handleSaveChanges}
-                className="bg-[#FFCD48] py-2 px-10 urbanist-700 text-center text-black rounded-3xl text-[20px]"
+                className="bg-[#8C00FF] text-white py-2 px-10 urbanist-700 text-center text-black rounded-3xl text-[20px]"
               >
                 Save Changes
               </button>

@@ -27,7 +27,7 @@ const Privacy = () => {
                 />
               </button>
             </div>
-            <div className="text-[#FFCE48] poppins-600 text-[28px] text-center md:mt-8">Privacy Policy for Earnr</div>
+            <div className="text-[#8C00FF] poppins-600 text-[28px] text-center md:mt-8">Privacy Policy for Earnr</div>
             <span className=" text-center mt-3 text-gray-400">Last updated November 17, 2024</span>
             <div className="mt-4 flex flex-col gap-4 px-2">
               <div className="flex flex-col gap-2">
@@ -46,14 +46,14 @@ const Privacy = () => {
                 other than this website.
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Consent</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Consent</h2>
                 <p className="text-[14px]">
                   By using our website, you hereby consent to our Privacy Policy
                   and agree to its terms.
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Information We Collect</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Information We Collect</h2>
                 <p className="text-[14px]">
                   We will inform you of the personal information we are asking
                   you to provide and the reasons for doing so at the point of
@@ -68,7 +68,7 @@ const Privacy = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">How We Use Your Information</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">How We Use Your Information</h2>
                 <p className="text-[14px]">
                   We utilize the information we collect in various ways,
                   including to:
@@ -87,7 +87,7 @@ const Privacy = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Log Files</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Log Files</h2>
                 <p className="text-[14px]">
                   Earnr follows a standard procedure of using log files. These
                   files log visitors when they visit websites. All hosting
@@ -103,7 +103,7 @@ const Privacy = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Third-Party Privacy Policies</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Third-Party Privacy Policies</h2>
                 <p className="text-[14px]">
                   Earnr's Privacy Policy does not apply to other advertisers or
                   websites. Thus, we advise you to consult the respective
@@ -113,7 +113,7 @@ const Privacy = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Data Protection Rights under GDPR</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Data Protection Rights under GDPR</h2>
                 <p className="text-[14px]">
                   We are committed to ensuring that your data protection rights
                   are respected. Every user is entitled to the following:
@@ -137,7 +137,7 @@ const Privacy = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Modifications to the Privacy Policy</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Modifications to the Privacy Policy</h2>
                 <p className="text-[14px]">
                   Earnr reserves the right to update this privacy policy at any
                   time. When we do, we will notify users through the website or

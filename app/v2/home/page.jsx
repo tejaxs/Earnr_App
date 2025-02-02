@@ -1,22 +1,24 @@
 "use client";
-import BeCreatorform from "@/components/BeCreatorform";
-import Loader from "@/components/Loader";
+
+
 import ProtectedRoute from "@/components/ProtectedRoutes";
-import Withdraw from "@/components/WithDraw";
+import Withdraw from "@/components/creator/WithDraw";
 import { useAuth } from "@/context/AuthContext";
 import { db } from "@/firebase/firebaseConfig";
 import { motion } from "framer-motion";
 import { collection, doc, getDoc, onSnapshot } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import HowToUse from "@/components/HowToUse";
+import HowToUse from "@/components/UI/HowToUse";
+import WaveLoader from "@/components/Loader/WaveLoader";
+import BeCreatorform from "@/components/creator/BeCreatorform";
 
 const Home = () => {
   const { user } = useAuth();
   const [creators, setCreators] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [coin, setCoin] = useState(0);
- const [amount,setAmount]=useState(0)
+  const [amount, setAmount] = useState(0);
   const [loading1, setLoading1] = useState(true);
   const [loading2, setLoading2] = useState(true);
 
@@ -124,11 +126,9 @@ const Home = () => {
       setLevel("Level 2");
     } else if (coin >= 1500 && coin <= 3000) {
       setLevel("Level 3");
-    }
-    else if (coin >= 3000 && coin <= 5000) {
+    } else if (coin >= 3000 && coin <= 5000) {
       setLevel("Level 4");
-    }
-    else if (coin >= 5000 && coin <= 8000) {
+    } else if (coin >= 5000 && coin <= 8000) {
       setLevel("Level 5");
     }
   }, [coin]);
@@ -148,32 +148,31 @@ const Home = () => {
   };
 
   const modalRef = useRef(null);
-   const handleOutsideClick = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setShowModal(false); // Close modal if click is outside
-      }
+  const handleOutsideClick = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setShowModal(false); // Close modal if click is outside
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick); // Listen for clicks
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick); // Cleanup event listener
     };
-  
-    useEffect(() => {
-      document.addEventListener("mousedown", handleOutsideClick); // Listen for clicks
-      return () => {
-        document.removeEventListener("mousedown", handleOutsideClick); // Cleanup event listener
-      };
-    }, []);
+  }, []);
+  console.log(user);
+
   return (
     <ProtectedRoute>
-      <div className="px-4 py-2 text-white">
-        <div className="flex md:hidden  justify-between md:mt-0 mt-4">
+      <div className="md:px-10 px-4 py-2 text-white">
+        <div className="flex md:hidden  justify-between md:mt-0 mt-4 ">
           <button
             onClick={() => setShowModal(true)}
-            className="text-[20px] text-[#FFCE48] border rounded-full   px-4 urbanist-600"
+            className="text-[20px] border rounded-full   px-4 urbanist-600"
           >
             How to Use
           </button>
           <Link href={"/account"} className="flex  items-center">
-            <span className="bg-[#f4f3fc6a] px-3 rounded-l-xl  poppins-400">
-              Free
-            </span>
             <img
               src={user?.photoURL || "/person.png"}
               alt=""
@@ -182,74 +181,80 @@ const Home = () => {
           </Link>
         </div>
         {loading1 ? (
-          <Loader />
+          <WaveLoader />
         ) : (
-          <div className="flex justify-center w-full poppins-600 md:mt-6 mt-10">
-            <div className="bg-[#DCA546] text-black md:w-[420px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
-              <div className="flex flex-col gap-2 relative">
-                <div className="text-[40px] flex items-center">
-                  ₹ {amount}
+          <div className="flex justify-center w-full md:mt-6 mt-10">
+            <div className="bg-[url('/bgimage.png')] relative  md:w-[440px] w-full rounded-[16px] flex justify-between mt-4 md:p-4 p-2 px-3">
+              <div className="bg-[#FFA100] text-sm absolute border-white border rounded-full px-2 right-2 urbanist-500 flex">
+                {level}{" "}
+                <button
+                  ref={tooltipRef}
+                  className="ml-2 relative group focus:outline-none flex items-center"
+                  onClick={() => setShowTooltip(!showTooltip)} // Mobile toggle
+                >
+                  <div className="text-base flex items-center">
+                    <span className=" border-white border text-black  w-[17px] h-[17px] text-[12px] rounded-full bg-white  flex justify-center items-center">
+                      i
+                    </span>
+                  </div>
+
+                  <div
+                    className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-max bg-black text-white text-sm rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
+                      showTooltip
+                        ? "opacity-100 visible"
+                        : "opacity-0 invisible"
+                    } group-hover:opacity-100 group-hover:visible`}
+                  >
+                    Level refreshes each month
+                  </div>
+                </button>
+              </div>
+              <div className="flex flex-col gap-2 relative md:w-4/6 py-3">
+                <div className="text-[40px] flex items-center urbanist-700">
+                  {user?.name}
                   {/* Eye button with tooltip */}
-                  <button
-                    ref={tooltipRef1}
-                    className="ml-2 relative group focus:outline-none flex items-center"
-                    onClick={() => setShowTooltip1(!showTooltip1)} // Mobile toggle
-                  >
-                    <div className="text-base flex items-center">
-                        <span className=" border-white border  w-[17px] h-[17px] text-[12px] bg-white  flex justify-center items-center rounded-full">i</span>
-                    </div>
-                    {/* Tooltip */}
-                    <div
-                      className={`absolute top-full mt-2 md:left-1/2 md:ml-0 ml-8 transform -translate-x-1/2 md:w-max w-[270px] bg-black text-white  md:text-sm text-xs rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
-                        showTooltip1
-                          ? "opacity-100 visible"
-                          : "opacity-0 invisible"
-                      } group-hover:opacity-100 group-hover:visible`}
-                    >
-                      Earning updates on the last day of each month
-                    </div>
-                  </button>
                 </div>
-                <div>{user?.displayName}</div>
-                <div className="flex items-center relative">
-                  <button className="bg-white px-4 text-[14px] rounded-[16px] poppins-500">
-                    {level}
-                    
-                  </button>
-                  <button
-                    ref={tooltipRef}
-                    className="ml-2 relative group focus:outline-none flex items-center"
-                    onClick={() => setShowTooltip(!showTooltip)} // Mobile toggle
-                  >
-                       <div className="text-base flex items-center">
-                        <span className=" border-white border  w-[17px] h-[17px] text-[12px] rounded-full bg-white  flex justify-center items-center">i</span>
-                    </div>
-                    {/* Tooltip */}
-                    <div
-                      className={`absolute top-full mt-2 left-1/2 transform -translate-x-1/2 w-max bg-black text-white text-sm rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
-                        showTooltip
-                          ? "opacity-100 visible"
-                          : "opacity-0 invisible"
-                      } group-hover:opacity-100 group-hover:visible`}
+                <div className="flex flex-col">
+                  <div className="flex urbanist-500">
+                    Balance:{" "}
+                    <button
+                      ref={tooltipRef1}
+                      className="ml-2 relative group focus:outline-none flex items-center"
+                      onClick={() => setShowTooltip1(!showTooltip1)} // Mobile toggle
                     >
-                       Level refreshes each month
-                    </div>
-                  </button>
+                      <div className="text-base flex items-center">
+                        <span className="  border  w-[17px] h-[17px] text-[12px] bg-white text-black  flex justify-center items-center rounded-full">
+                          i
+                        </span>
+                      </div>
+                      {/* Tooltip */}
+                      <div
+                        className={`absolute top-full mt-2 md:left-1/2 md:ml-0 ml-8 transform -translate-x-1/2 md:w-max w-[270px] bg-black text-white  md:text-sm text-xs rounded-lg px-3 py-2 shadow-lg transition-opacity duration-300 ${
+                          showTooltip1
+                            ? "opacity-100 visible"
+                            : "opacity-0 invisible"
+                        } group-hover:opacity-100 group-hover:visible`}
+                      >
+                        Earning updates on the last day of each month
+                      </div>
+                    </button>
+                  </div>
+                  <div className="urbanist-700">{user?.amount}</div>
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="flex flex-col items-center gap-3 md:w-2/6 py-3">
                 <img
                   src="/whitelogo.png"
                   alt=""
-                  className="md:w-[120px] w-[100px] md:h-[100px] h-[80px]"
+                  className="md:w-[100px] w-[100px] md:h-[85px] h-[80px]"
                 />
 
                 <button
                   onClick={() => setShowModal1(true)}
-                  className="text-[14px] border border-black rounded-[16px]  poppins-500"
+                  className="text-[14px] border bg-white text-black rounded-[16px]  poppins-500 px-4 py-1"
                 >
-                  Withdraw
+                  Withdraw Now
                 </button>
               </div>
             </div>
@@ -257,7 +262,7 @@ const Home = () => {
         )}
 
         <div className="mt-10 md:mt-16 poppins-600 relative">
-          <h2 className="text-[18px] md:text-[32px] md:text-center">
+          <h2 className="text-[18px] md:text-[32px]">
             Your Creators
           </h2>
 
@@ -272,10 +277,10 @@ const Home = () => {
 
             {/* Carousel */}
             {loading2 ? (
-              <Loader />
+              <WaveLoader />
             ) : (
               <div
-                className="flex md:justify-center md:space-x-20 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+                className="flex md:space-x-20 space-x-4 overflow-x-auto scroll-smooth snap-x snap-mandatory "
                 id="carousel"
                 ref={carouselRef}
               >
@@ -283,12 +288,9 @@ const Home = () => {
                   <Link
                     href={`/v1/${da?.id}`}
                     key={i}
-                    className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black"
+                    className="flex-shrink-0 w-40 md:w-60 snap-center bg-white rounded-lg shadow-lg text-black border border-[#8C00FF]"
                   >
-                    <div
-                      style={{ backgroundColor: da?.color }}
-                      className="rounded-t-lg flex justify-center"
-                    >
+                    <div className="rounded-t-lg flex justify-center bg-[url('/bg-image.png')] ">
                       <img
                         src={da?.image}
                         alt=".."
@@ -389,28 +391,28 @@ const Home = () => {
         {showModal && <BeCreatorform setShowModal={setShowModal} />}
         {showModal1 && <Withdraw setShowModal={setShowModal1} />}
         {showModal && (
-        <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <motion.div
-            ref={modalRef}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.4 }}
-            className="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-4xl relative z-50 h-[90%] overflow-y-auto custom-scrollbar"
-          >
-            <h2 className="text-3xl poppins-600 text-[#DCA546] mb-6 text-center">
-              How to Get Started with Earnr
-            </h2>
-            <HowToUse />
-            <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-4 right-4 text-black text-2xl font-bold hover:text-[#DCA546]"
+          <div className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+            <motion.div
+              ref={modalRef}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.4 }}
+              className="bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-4xl relative z-50 h-[90%] overflow-y-auto custom-scrollbar"
             >
-              &times;
-            </button>
-          </motion.div>
-        </div>
-      )}
+              <h2 className="text-3xl poppins-600 text-[#DCA546] mb-6 text-center">
+                How to Get Started with Earnr
+              </h2>
+              <HowToUse />
+              <button
+                onClick={() => setShowModal(false)}
+                className="absolute top-4 right-4 text-black text-2xl font-bold hover:text-[#DCA546]"
+              >
+                &times;
+              </button>
+            </motion.div>
+          </div>
+        )}
       </div>
     </ProtectedRoute>
   );

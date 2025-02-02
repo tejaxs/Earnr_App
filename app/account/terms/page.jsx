@@ -27,7 +27,7 @@ const Terms = () => {
                 />
               </button>
             </div>
-            <div className=" text-[#FFCE48] poppins-600 text-[28px] text-center md:mt-8">
+            <div className=" text-[#8C00FF] poppins-600 text-[28px] text-center md:mt-8">
               Terms of Service
             </div>
             <p className="text-center mt-3 text-gray-400">
@@ -35,7 +35,7 @@ const Terms = () => {
             </p>
             <div className="mt-4 flex flex-col gap-4 px-2">
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">AGREEMENT TO OUR LEGAL TERMS</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">AGREEMENT TO OUR LEGAL TERMS</h2>
                 <p className="text-[14px]">
                   We are Blockive Deducation Academy Private Limited, doing
                   business as Earnr ('Company', 'we', 'us', or 'our'), a
@@ -62,7 +62,7 @@ const Terms = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Introduction</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Introduction</h2>
                 <p className="text-[14px]">
                   Welcome to Earnr, operated by Blockive Deducation Academy
                   Pvt. Ltd. ("Earnr", "we", "us", or "our"), a pioneering
@@ -74,7 +74,7 @@ const Terms = () => {
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h2 className="poppins-600 text-[24px] text-[#FFCE48]">Company Details</h2>
+                <h2 className="poppins-600 text-[24px] text-[#8C00FF]">Company Details</h2>
                 <p className="text-[14px]">
                   Blockive Deducation Academy Pvt. Ltd. CIN:
                   U62099RJ2023PTC088351 Registered Office: Plot A-34, Shastri
@@ -85,7 +85,7 @@ const Terms = () => {
                 <div className="flex flex-col gap-4">
                  
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]">1. Acceptance of Terms</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]">1. Acceptance of Terms</h2>
                     <p className="text-[14px]">
                       By accessing Earnr, you confirm that you have read,
                       understood, and agreed to be bound by these Terms. If you
@@ -94,7 +94,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]">2. Blockchain Technology</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]">2. Blockchain Technology</h2>
                     <p className="text-[14px]">
                       Earnr utilizes blockchain technology, which requires an
                       understanding of its use and limitations. You acknowledge
@@ -103,7 +103,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]">3. Account</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]">3. Account</h2>
                     <p className="text-[14px]">
                       Creation and Responsibility To access certain features of
                       Earnr, you may need to create an account. You are
@@ -113,7 +113,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 4. Intellectual</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 4. Intellectual</h2>
                     <p className="text-[14px]">
                       Property Rights All content provided on Earnr, including
                       text, graphics, logos, and software, is the property of
@@ -122,7 +122,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 5. User Conduct</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 5. User Conduct</h2>
                     <p className="text-[14px]">
                       Users of Earnr are expected to behave responsibly and
                       respect the rights of others. Prohibited activities
@@ -132,7 +132,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 6. Decentralized Nature of Services</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 6. Decentralized Nature of Services</h2>
                     <p className="text-[14px]">
                       Given the decentralized nature of Earnr, we do not have
                       the same control over content or transactions as
@@ -142,7 +142,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 7. Amendments to Terms</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 7. Amendments to Terms</h2>
                     <p className="text-[14px]">
                       We reserve the right to modify these Terms at any time.
                       Your continued use of Earnr after any changes indicates
@@ -150,7 +150,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 8. Contact Information</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 8. Contact Information</h2>
                     <p className="text-[14px]">
                       For any inquiries or concerns regarding these Terms or our
                       Services, You can contact us by phone at 9928893561, email
@@ -159,7 +159,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 9. Governing Law</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 9. Governing Law</h2>
                     <p className="text-[14px]">
                       These Terms shall be governed and construed in accordance
                       with the laws of India, without regard to its conflict of
@@ -167,7 +167,7 @@ const Terms = () => {
                     </p>
                   </div>
                   <div>
-                    <h2 className="poppins-600 text-[20px] text-[#FFCE48]"> 10. Dispute Resolution</h2>
+                    <h2 className="poppins-600 text-[20px] text-[#8C00FF]"> 10. Dispute Resolution</h2>
                     <p className="text-[14px]">
                       Any disputes arising from these Terms will be resolved
                       through arbitration in accordance with the Arbitration and

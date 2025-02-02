@@ -1,17 +1,15 @@
 "use client";
-import BeCreatorform from "@/components/BeCreatorform";
-import Loader from "@/components/Loader";
+
+import Loader from "@/components/UI/Loader";
 import Navbar from "@/components/Navbar";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import { useAuth } from "@/context/AuthContext";
-import { auth, db } from "@/firebase/firebaseConfig";
-// import useAuth from "@/hooks/useAuth";
-import { IconButton } from "@mui/material";
-import { signOut } from "firebase/auth";
+import { db } from "@/firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import BeCreatorform from "@/components/creator/BeCreatorform";
 
 const Account = () => {
   const { user ,logout} = useAuth();

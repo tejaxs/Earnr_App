@@ -8,7 +8,10 @@
   /* --background: #ffffff;
   --foreground: #171717; */
 }
-
+body{
+  background: black;
+  color: white;
+}
 
 .poppins-400 {
   font-family: "Poppins", sans-serif;
@@ -100,19 +103,17 @@
   -webkit-text-fill-color: transparent;
 }
 
-.grad {
-  /* height: 100vh; */
+/* .grad {
   background-image: linear-gradient(to bottom, #111 0%, #413116 20%,#111 100%);
   background-size: cover;
-  /* margin: 0; */
 }
 .grad2 {
-  /* height: 100vh; */
+
   background-image: linear-gradient(to bottom, #111 0%, #413116 20%);
   background-size: cover;
-  /* margin: 0; */
-}
-/* Hide scrollbar */
+
+} */
+
 #carousel::-webkit-scrollbar {
   display: none;
 }
@@ -122,10 +123,9 @@
 }
 
 
-.gradient-border {
-  /* padding: 10px; */
+/* .gradient-border {
   border-radius: 5px;
-  background: linear-gradient(to right, #FC4C3F, #00FFF0,#FF00D6); /* Gradient background */
+  background: linear-gradient(to right, #FC4C3F, #00FFF0,#FF00D6); 
 
 }
 
@@ -141,13 +141,11 @@
   z-index: -1;
 }
 .gradient-borderr {
-  /* padding: 10px; */
   border-radius: 8px;
-  background: linear-gradient(to right, #FC4C3F, #00FFF0,#FF00D6); /* Gradient background */
+  background: linear-gradient(to right, #FC4C3F, #00FFF0,#FF00D6); 
   padding: 2px;
-
 }
-
+ */
 
 
 /* Custom styling for the range input */

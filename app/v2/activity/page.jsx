@@ -1,18 +1,14 @@
 "use client";
-import ActivityModal from "@/components/ActivityModal";
-import ActivityTimer from "@/components/ActivityTimer";
+import ActivityModal from "@/components/Activity/ActivityModal";
+import ActivityTimer from "@/components/Activity/ActivityTimer";
 import withSuspense from "@/components/Suspense";
-import Loader from "@/components/Loader"; // Import the Loader component
 import { db } from "@/firebase/firebaseConfig";
-// import useAuth from "@/hooks/useAuth";
-import { Modal } from "@mui/material";
 import { collectionGroup, onSnapshot, doc, getDoc } from "firebase/firestore";
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import VerifyInstagramCard from "@/components/VerifyInstagramCard";
 import { useAuth } from "@/context/AuthContext";
-import VerifyInstagram from "@/components/VerifyInstagram";
+import VerifyInstagram from "@/components/Activity/VerifyInstagram";
+import WaveLoader from "@/components/Loader/WaveLoader";
 
 const Activity = () => {
   const router = useRouter();
@@ -122,7 +118,7 @@ const Activity = () => {
     fetchCoin(); // Call the function to fetch user data
   }, [user?.uid]);
   return (
-    <div className="px-3 py-2 text-white">
+    <div className="md:px-10 px-3 py-2 text-white">
       <div className="w-full overflow-hidden mt-3 poppins-600">
         <div className="flex justify-between">
           <div
@@ -135,7 +131,7 @@ const Activity = () => {
                 onClick={() => handleCategoryClick(ca)}
                 className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer ${
                   cat === ca
-                    ? "text-[#F7B84B] border-[#F7B84B]"
+                    ? "text-[#8C00FF] border-[#8C00FF]"
                     : "text-[#F4F3FC] border-[#F4F3FC]"
                 } `}
               >
@@ -152,11 +148,13 @@ const Activity = () => {
       <div className="mt-6 md:mt-12">
         <div className="w-full mt-3">
           <div
-            className="flex flex-wrap md:gap-12 gap-3 md:justify-center justify-evenly"
+            className="flex flex-wrap md:gap-12 gap-3 md:justify-start justify-evenly"
             id="carousel"
           >
             {loading ? (
-              <Loader /> // Show loader when loading
+              <div className=" w-full">
+                <WaveLoader />{" "}
+              </div>
             ) : displayedActivities.filter((da) => da.status === "pending")
                 .length > 0 ? (
               displayedActivities
@@ -165,7 +163,7 @@ const Activity = () => {
                   <div
                     key={i}
                     onClick={() => handleActivityClick(da)}
-                    className="md:w-[230px] w-[140px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border gradient-borderr"
+                    className="md:w-[230px] w-[140px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border-2 border-[#8C00FF]"
                   >
                     <div className="relative">
                       <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1">
@@ -222,11 +220,11 @@ const Activity = () => {
           </div>
         </div>
       </div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         {cat === "Earnr Activities" && !loading && (
           <VerifyInstagram userId={user?.uid} />
         )}
-      </div>
+      </div> */}
 
       <ActivityModal
         open={open}

@@ -97,12 +97,12 @@ const InstallButton = () => {
 
   return (
     isVisible && (
-      <div>
+      <div className="w-full">
         {platform === "iOS" ? (
           <div>
             <button
                 onClick={()=>setOpen1(true)}
-                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+                className="bg-[#8C00FF] text-center urbanist-700 py-2 px-6 text-white rounded-3xl w-full text-[20px]"
               >
                 GET APP
               </button>
@@ -112,14 +112,14 @@ const InstallButton = () => {
             {isInstallable && !isStandalone ? (
               <button
                 onClick={handleInstallClick}
-                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+                className="bg-[#8C00FF] text-center urbanist-700 py-2 px-6 text-white rounded-3xl w-full text-[20px]"
               >
                 GET APP
               </button>
             ) : (
               <button
                 onClick={handleLaunchClick}
-                className="bg-[#FFCD48] text-center urbanist-700 py-2 px-6 text-black rounded-3xl w-full text-[20px]"
+                className="bg-[#8C00FF] text-center urbanist-700 py-2 px-6 text-white rounded-3xl w-full text-[20px]"
               >
                 Launch App
               </button>

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/context/AuthContext";
-import HowToUse from "./HowToUse";
+import HowToUse from "./UI/HowToUse";
 import { motion } from "framer-motion";
 
 const Navbar = () => {
@@ -33,8 +33,8 @@ const Navbar = () => {
     <div className="p-2 md:flex hidden justify-between items-center w-full">
       <Link href={"/v2/home"}>
         <img
-          className="lg:w-[218px] md:w-[120px] lg:h-[62px] md:h-[40px]"
-          src="/earnr_white@4x 1.png"
+          className="lg:w-[218px] md:w-[120px] lg:h-[72px] md:h-[40px]"
+          src="/whiteLogo1.png"
           alt="Logo"
         />
       </Link>
