@@ -204,26 +204,25 @@ const CreatorContent = ({ params }) => {
 
             <div className="bg-[#1C1B19] pt-4 px-3 pb-4 rounded-t-3xl mt-3">
               <div
-                className={`flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer 
-                text-[#8C00FF] border-[#8C00FF] `}
+                className="flex-shrink-0 px-4 md:text-base text-sm flex items-center justify-center snap-center rounded-lg shadow-lg border py-1 cursor-pointer 
+    text-[#8C00FF] border-[#8C00FF]"
               >
                 Creator Activities
               </div>
               <div className="w-full mt-3">
                 <div
-                  className="flex flex-wrap md:gap-12 gap-3 md:justify-center justify-evenly"
+                  className="flex flex-wrap md:gap-12 gap-6 md:justify-center justify-center"
                   id="carousel"
                 >
                   {activities.map((da, i) => (
                     <div
                       key={i}
-                      // ref={ButtonRef}
-
                       onClick={() => handleActivityClick(da)}
-                      className=" md:w-[230px] w-[130px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border border-[#8C00FF]"
+                      className="md:w-[230px] w-[130px] cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border border-[#8C00FF] 
+          transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
                     >
                       <div className="relative">
-                        <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1 ">
+                        <p className="absolute right-0 text-[10px] bg-[#FFBE4E] rounded-3xl px-2 poppins-600 m-1">
                           {da?.time}
                         </p>
                         <img
@@ -232,7 +231,7 @@ const CreatorContent = ({ params }) => {
                           className="rounded-t-lg w-full md:h-[130px] h-[90px]"
                         />
                       </div>
-                      <div className=" bg-white rounded-b-lg">
+                      <div className="bg-white rounded-b-lg">
                         <div className="flex md:gap-5 gap-3">
                           <img
                             src={da?.icon}

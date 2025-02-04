@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 
 const CreatorList = ({ filteredCreators }) => {
-  console.log(filteredCreators);
 
   return (
     <div className="mt-6 md:mt-12">
@@ -16,9 +15,9 @@ const CreatorList = ({ filteredCreators }) => {
           ) : (
             filteredCreators.map((da, i) => (
               <Link href={`/v1/${da?.id}`} key={i} className="md:w-auto w-full">
-                <div className=" w-[140px] md:w-52 cursor-pointer snap-center bg-white rounded-lg shadow-lg text-black border border-[#8C00FF] md:block hidden">
+                <div className=" w-[140px] md:w-52 cursor-pointer snap-center bg-white rounded-lg shadow-lg overflow-hidden text-black border border-[#8C00FF] md:block hidden">
                   <div
-                    className={` rounded-t-lg flex justify-center bg-[url('/bg-image.png')]`}
+                    className={` flex justify-center bg-[url('/bg-image.png')]`}
                   >
                     <img
                       src={da?.image}

@@ -90,7 +90,7 @@ export default function Home() {
 
       <div className="md:flex hidden flex-col gap-3">
         <Link
-          href={"/signup"}
+          href={"/login"}
           className="bg-[#8C00FF] urbanist-700 py-2 px-20 text-center text-white rounded-3xl w-full text-[20px]"
         >
           Next

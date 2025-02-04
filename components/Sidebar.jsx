@@ -1,10 +1,20 @@
 "use client";
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const { logout } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (err) {
+      console.error("Logout failed: ", err.message);
+    }
+  };
   // console.log(pathname);
   return (
     <div>
@@ -22,9 +32,9 @@ const Sidebar = () => {
           }`}
         >
           {pathname.includes("home") ? (
-            <img src="/homehover.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img src="/homehover.png" alt=".." className="w-[24px] h-[24px]" />
           ) : (
-            <img src="/home.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img src="/home.png" alt=".." className="w-[24px] h-[24px]" />
           )}
           Home
         </Link>
@@ -35,9 +45,13 @@ const Sidebar = () => {
           }`}
         >
           {pathname.includes("creator") ? (
-            <img src="/creatorhover.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img
+              src="/creatorhover.png"
+              alt=".."
+              className="w-[24px] h-[24px]"
+            />
           ) : (
-            <img src="/creator.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img src="/creator.png" alt=".." className="w-[24px] h-[24px]" />
           )}
           Creators
         </Link>
@@ -48,12 +62,23 @@ const Sidebar = () => {
           }`}
         >
           {pathname.includes("activity") ? (
-            <img src="/activityhover.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img
+              src="/activityhover.png"
+              alt=".."
+              className="w-[24px] h-[24px]"
+            />
           ) : (
-            <img src="/activity.png" alt=".." className="w-[24px] h-[24px]"/>
+            <img src="/activity.png" alt=".." className="w-[24px] h-[24px]" />
           )}
           Activity
         </Link>
+        <button
+          onClick={handleLogout}
+          className={`urbanist-800 flex gap-2 items-center`}
+        >
+          <img src="/logout.png" alt=".." className="w-[24px] h-[24px]" />
+          Logout
+        </button>
         {/* <Link href={"/dashboard/profile"} className={`urbanist-800 ${pathname.includes("profile") ? "text-[#8C00FF]":""}`}>Profile</Link> */}
       </div>
     </div>
