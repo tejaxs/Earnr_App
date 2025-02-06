@@ -135,7 +135,15 @@ const Home = () => {
             />
           </Link>
         </div>
-        {loading1 ? <WaveLoader /> : <ProfileCard level={level} user={user} />}
+        {loading1 ? (
+          <WaveLoader />
+        ) : (
+          <ProfileCard
+            level={level}
+            user={user}
+            setShowModal1={setShowModal1}
+          />
+        )}
 
         <MyCreator loading2={loading2} creators={creators} />
 

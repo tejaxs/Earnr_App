@@ -10,8 +10,8 @@ const Terms = () => {
     router.back();
   };
   return (
-    <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">
-      <Navbar />
+    <div className="w-full min-h-screen grad md:px-10 px-0 text-white flex flex-col items-center">
+
       <ProtectedRoute>
         <div className=" w-full flex flex-col flex-grow poppins-400 ">
           <div className="bg-[#1C1B19]  flex flex-col flex-grow pb-8">

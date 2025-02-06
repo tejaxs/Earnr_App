@@ -135,7 +135,7 @@ const Login = () => {
 
         <div className="flex flex-col gap-6 w-full max-w-[300px]">
           {!otpSent ? (
-            <div className="flex flex-col gap-4">
+            <form className="flex flex-col gap-4">
               {inputs.map((input) => (
                 <DynamicInput
                   key={input.id}
@@ -149,13 +149,14 @@ const Login = () => {
               ))}
               <button
                 onClick={handleSendOtp}
+                type="submit"
                 className="bg-[#8C00FF] urbanist-700 py-2 px-4 text-center text-white rounded-3xl w-full text-[20px]"
               >
                 Send OTP
               </button>
-            </div>
+            </form>
           ) : (
-            <div className="flex flex-col gap-2">
+            <form className="flex flex-col gap-2">
              {otp.map((otp) => (
                 <DynamicInput
                   key={otp.id}
@@ -169,11 +170,12 @@ const Login = () => {
               ))}
               <button
                 onClick={handleVerifyOtp}
+                type="submit"
                 className="bg-[#8C00FF] urbanist-700 py-2 px-4 text-center text-white rounded-3xl w-full text-[20px]"
               >
                 Verify OTP
               </button>
-            </div>
+            </form>
           )}
         </div>
 

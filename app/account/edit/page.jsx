@@ -9,6 +9,7 @@ import { db, storage } from "@/firebase/firebaseConfig"; // Ensure you export `s
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAuth } from "@/context/AuthContext";
+import WaveLoader from "@/components/Loader/WaveLoader";
 
 const EditProfile = () => {
   const { user } = useAuth();
@@ -19,7 +20,7 @@ const EditProfile = () => {
   const [photoURL, setPhotoURL] = useState(user?.photoURL || "");
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(photoURL);
-
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (user?.uid) {
       setName(user?.name || "");
@@ -46,7 +47,6 @@ const EditProfile = () => {
     }
   };
 
-  
   const uploadImage = async () => {
     if (!selectedFile) return photoURL; // No new file, return the current photoURL
 
@@ -72,6 +72,7 @@ const EditProfile = () => {
   };
 
   const handleSaveChanges = async () => {
+    setLoading(true);
     try {
       // Upload image and get URL
       const updatedPhotoURL = await uploadImage();
@@ -84,85 +85,95 @@ const EditProfile = () => {
         name,
         photoURL: updatedPhotoURL,
       });
-
+      setLoading(false);
       toast.success("Profile updated successfully!");
     } catch (error) {
+      setLoading(false);
       console.error("Error updating profile:", error);
       toast.error("Failed to update profile. Please try again.");
     }
   };
 
   return (
-    <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">
-      <Navbar />
+    <div className="w-full min-h-screen grad md:px-10 px-0 text-white flex flex-col items-center">
       <ProtectedRoute>
-        <div className="md:w-5/12 w-full flex flex-col flex-grow">
-          <div>
-            <button
-              onClick={handleBack}
-              className="border border-white rounded-full p-1 m-2 md:hidden"
-            >
-              <img
-                src="/back.png"
-                alt="Go Back"
-                className="w-[14px] h-[14px]"
-              />
-            </button>
+        {loading ? (
+          <div className="flex w-full h-screen justify-center items-center">
+            <WaveLoader />
           </div>
-
-          <div className="flex justify-center">
-            <div className="mt-4 relative">
-              <img
-                src={previewImage || "/person.png"}
-                alt="Profile"
-                className="relative bg-black right-2 w-[126px] h-[126px] rounded-full object-cover"
-              />
-              <div className="p-2 bg-[#8C00FF] rounded-[8px] absolute bottom-4 right-2">
-                <label htmlFor="fileInput">
-                  <img src="/edit.png" alt="Edit" className="w-[13px] h-[13px] cursor-pointer" />
-                </label>
-                <input
-                  id="fileInput"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
+        ) : (
+          <div className="md:w-5/12 w-full flex flex-col flex-grow">
+            <div>
+              <button
+                onClick={handleBack}
+                className="border border-white rounded-full p-1 m-2 md:hidden"
+              >
+                <img
+                  src="/back.png"
+                  alt="Go Back"
+                  className="w-[14px] h-[14px]"
                 />
+              </button>
+            </div>
+
+            <div className="flex justify-center">
+              <div className="mt-4 relative">
+                <img
+                  src={previewImage || "/person.png"}
+                  alt="Profile"
+                  className="relative bg-black right-2 w-[126px] h-[126px] rounded-full object-cover"
+                />
+                <div className="p-2 bg-[#8C00FF] rounded-[8px] absolute bottom-4 right-2">
+                  <label htmlFor="fileInput">
+                    <img
+                      src="/edit.png"
+                      alt="Edit"
+                      className="w-[13px] h-[13px] cursor-pointer"
+                    />
+                  </label>
+                  <input
+                    id="fileInput"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="hidden"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-[#1C1B19]  mt-10 pt-6 md:px-10 px-3 pb-10 flex flex-col gap-8 flex-grow">
+              <div className="flex flex-col gap-3">
+                <label className="urbanist-700 text-[14px]">Name</label>
+                <input
+                  type="text"
+                  placeholder="Add Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="px-2 py-1 placeholder:font-semibold urbanist-700 text-black rounded-xl"
+                />
+              </div>
+              <div className="flex flex-col gap-3">
+                <label className="urbanist-700 text-[14px]">Phone Number</label>
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  value={number}
+                  readOnly
+                  className="px-2 py-1 read-only:bg-gray-300 placeholder:font-semibold urbanist-700 text-black rounded-xl"
+                />
+              </div>
+              <div className="flex justify-center mt-10">
+                <button
+                  onClick={handleSaveChanges}
+                  className="bg-[#8C00FF] text-white py-2 px-10 urbanist-700 text-center  rounded-3xl text-[20px]"
+                >
+                  Save Changes
+                </button>
               </div>
             </div>
           </div>
-
-          <div className="bg-[#1C1B19]  mt-10 pt-6 md:px-10 px-3 pb-10 flex flex-col gap-8 flex-grow">
-            <div className="flex flex-col gap-3">
-              <label className="urbanist-700 text-[14px]">Name</label>
-              <input
-                type="text"
-                placeholder="Add Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="px-2 py-1 placeholder:font-semibold urbanist-700 text-black rounded-xl"
-              />
-            </div>
-            <div className="flex flex-col gap-3">
-              <label className="urbanist-700 text-[14px]">Phone Number</label>
-              <input
-                type="text"
-                placeholder="Phone Number"
-                value={number}
-                readOnly
-                className="px-2 py-1 read-only:bg-gray-300 placeholder:font-semibold urbanist-700 text-black rounded-xl"
-              />
-            </div>
-            <div className="flex justify-center mt-10">
-              <button
-                onClick={handleSaveChanges}
-                className="bg-[#8C00FF] text-white py-2 px-10 urbanist-700 text-center text-black rounded-3xl text-[20px]"
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
+        )}
       </ProtectedRoute>
 
       <ToastContainer />

@@ -10,9 +10,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import BeCreatorform from "@/components/creator/BeCreatorform";
+import WaveLoader from "@/components/Loader/WaveLoader";
+import Sidebar from "@/components/Sidebar";
 
 const Account = () => {
-  const { user ,logout} = useAuth();
+  const { user, logout } = useAuth();
   const [value, setValue] = useState(0);
 
   const router = useRouter();
@@ -94,9 +96,8 @@ const Account = () => {
 
   return (
     <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">
-      <Navbar />
       {loading1 ? (
-        <Loader />
+        <WaveLoader />
       ) : (
         <ProtectedRoute>
           <div className="md:w-7/12 w-full flex flex-col flex-grow">
@@ -139,7 +140,7 @@ const Account = () => {
                   value={value}
                   className="custom-slider"
                   style={{
-                    background: `linear-gradient(to right, #d4a054 ${percentage}%, #e0e0e0 ${percentage}%)`,
+                    background: `linear-gradient(to right, #8C00FF ${percentage}%, #e0e0e0 ${percentage}%)`,
                   }}
                 />
                 <div className="w-full flex justify-between poppins-600 ">
@@ -196,7 +197,7 @@ const Account = () => {
                 <h2 className="poppins-600 text-[18px] text-[#CACACA]">More</h2>
                 <div className="poppins-600 flex flex-col gap-3 mt-4">
                   <button
-                    onClick={()=>setShowModal(!showModal)}
+                    onClick={() => setShowModal(!showModal)}
                     className="flex items-center justify-between"
                   >
                     {" "}
@@ -259,7 +260,7 @@ const Account = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-center md:gap-10 gap-14 w-full p-4">
+            <div className="flex md:hidden justify-center md:gap-10 gap-14 w-full p-4">
               <a
                 target="_blank"
                 href={"https://www.instagram.com/earnr.live/"}
@@ -304,47 +305,52 @@ const Account = () => {
                 />
               </a>
             </div>
-            <div className="fixed bottom-16 right-4 z-30 bg-green-500 p-4 rounded-lg shadow-lg flex items-center gap-2 transition-all hover:bg-green-600 md:flex flex-col">
-            {!showWhatsApp && (
-        <div
-          onClick={toggleVisibility}
-          className="fixed bottom-16 right-4 z-30 bg-green-500 p-3 rounded-full cursor-pointer shadow-lg hover:bg-green-600 transition-all ease-in-out"
-        >
-          <span className="text-white font-semibold">Chat with us</span>
-        </div>
-      )}
+            <div className="fixed bottom-16 right-4 z-30">
+              {!showWhatsApp && (
+                <div
+                  onClick={toggleVisibility}
+                  className="fixed bottom-16 right-4 z-30 bg-green-500 p-3 rounded-full cursor-pointer shadow-lg hover:bg-green-600 transition-all ease-in-out flex items-center justify-center"
+                >
+                  <span className="text-white font-semibold text-sm md:text-base">
+                    Chat with us
+                  </span>
+                </div>
+              )}
 
-      {showWhatsApp && (
-        <div className="fixed bottom-16 right-4 z-30 bg-gradient-to-r from-green-400 via-green-500 to-green-600 p-4 rounded-lg shadow-2xl flex items-center gap-3 transition-all ease-in-out hover:scale-105 md:flex-col">
-          {/* WhatsApp Icon and Text */}
-          <a
-            href="https://chat.whatsapp.com/DAgdpjv5Qh89Tc4cyenQQ7"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3"
-          >
-            <img
-              src="/whatsapp-icon.png" // Make sure the WhatsApp icon is in your public folder
-              alt="WhatsApp Support"
-              className="w-14 h-14 rounded-full border-2 border-white"
-            />
-            <div className="flex flex-col items-start">
-              <span className="text-white text-sm font-semibold">Need Help?</span>
-              <span className="text-white text-xs">Chat with us on WhatsApp</span>
+              {showWhatsApp && (
+                <div className="fixed bottom-16 right-4 z-30 bg-gradient-to-r from-green-400 via-green-500 to-green-600 p-4 rounded-lg shadow-2xl flex items-center gap-3 transition-all ease-in-out hover:scale-105 md:flex-col md:items-start md:gap-2">
+                  {/* WhatsApp Icon and Text */}
+                  <a
+                    href="https://chat.whatsapp.com/DAgdpjv5Qh89Tc4cyenQQ7"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-3 md:gap-2"
+                  >
+                    <img
+                      src="/whatsapp-icon.png" // Make sure the WhatsApp icon is in your public folder
+                      alt="WhatsApp Support"
+                      className="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white"
+                    />
+                    <div className="flex flex-col items-start">
+                      <span className="text-white text-sm font-semibold md:text-base">
+                        Need Help?
+                      </span>
+                      <span className="text-white text-xs md:text-sm">
+                        Chat with us on WhatsApp
+                      </span>
+                    </div>
+                  </a>
+
+                  {/* Close Button (X Text) */}
+                  <div
+                    onClick={toggleVisibility}
+                    className="absolute top-0 right-0 text-white bg-opacity-60 px-2 py-1 rounded-full cursor-pointer hover:bg-opacity-100 transition-all text-lg font-bold"
+                  >
+                    X
+                  </div>
+                </div>
+              )}
             </div>
-          </a>
-
-          {/* Close Button (X Text) */}
-          <div
-            onClick={toggleVisibility}
-            className="absolute top-0 right-0 text-white bg-opacity-60 px-2 py-1 rounded-full cursor-pointer hover:bg-opacity-100 transition-all text-lg font-bold"
-          >
-            X
-          </div>
-        </div>
-      )}
-      </div>
-
           </div>
         </ProtectedRoute>
       )}

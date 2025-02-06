@@ -2,12 +2,13 @@
 import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import HowToUse from "./UI/HowToUse";
 
 const Sidebar = () => {
   const pathname = usePathname();
   const { logout } = useAuth();
-  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const handleLogout = async () => {
     try {
       await logout();
@@ -15,7 +16,20 @@ const Sidebar = () => {
       console.error("Logout failed: ", err.message);
     }
   };
-  // console.log(pathname);
+  const modalRef = useRef(null);
+  const handleOutsideClick = (event) => {
+    if (modalRef.current && !modalRef.current.contains(event.target)) {
+      setShowModal(false); // Close modal if click is outside
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick); // Listen for clicks
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick); // Cleanup event listener
+    };
+  }, []);
+
   return (
     <div>
       <div className="flex flex-col items-center ">
@@ -24,7 +38,7 @@ const Sidebar = () => {
           EA<span className="text-[#8C00FF]">R</span>NR
         </div>
       </div>
-      <div className="flex flex-col gap-12 mt-10 text-[24px] px-8">
+      <div className="flex flex-col gap-12 mt-10 text-[24px] px-4">
         <Link
           href={"/v2/home"}
           className={`urbanist-800 flex gap-2 items-center ${
@@ -72,6 +86,30 @@ const Sidebar = () => {
           )}
           Activity
         </Link>
+        <Link
+          href={"/account"}
+          className={`urbanist-800 flex gap-2 items-center ${
+            pathname.includes("account") ? "text-[#8C00FF]" : ""
+          }`}
+        >
+          {pathname.includes("account") ? (
+            <img
+              src="/accountcolor.png"
+              alt=".."
+              className="w-[24px] h-[24px]"
+            />
+          ) : (
+            <img src="/account.png" alt=".." className="w-[24px] h-[24px]" />
+          )}
+          Account
+        </Link>
+        <button
+          onClick={() => setShowModal(true)}
+          className={`urbanist-800 flex gap-2 items-center`}
+        >
+          <img src="/question.png" alt=".." className="w-[24px] h-[24px]" />
+          How to Use
+        </button>
         <button
           onClick={handleLogout}
           className={`urbanist-800 flex gap-2 items-center`}
@@ -79,8 +117,12 @@ const Sidebar = () => {
           <img src="/logout.png" alt=".." className="w-[24px] h-[24px]" />
           Logout
         </button>
+
         {/* <Link href={"/dashboard/profile"} className={`urbanist-800 ${pathname.includes("profile") ? "text-[#8C00FF]":""}`}>Profile</Link> */}
       </div>
+      {showModal && (
+        <HowToUse modalRef={modalRef} setShowModal={setShowModal} />
+      )}
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 
-const ProfileCard = ({level,user}) => {
+const ProfileCard = ({level,user,setShowModal1}) => {
   const [showTooltip, setShowTooltip] = useState(false);
   const [showTooltip1, setShowTooltip1] = useState(false);
 

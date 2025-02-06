@@ -168,7 +168,7 @@ body{
   width: 20px;
   height: 20px;
   background-color: #fff;
-  border: 3px solid #d4a054;
+  border: 3px solid #8C00FF;
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -178,7 +178,7 @@ body{
   width: 20px;
   height: 20px;
   background-color: #fff;
-  border: 3px solid #d4a054;
+  border: 3px solid #8C00FF;
   border-radius: 50%;
   cursor: pointer;
 }

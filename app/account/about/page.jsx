@@ -10,8 +10,7 @@ const About = () => {
     router.back();
   };
   return (
-    <div className="w-full min-h-screen grad md:px-40 px-0 text-white flex flex-col items-center">
-      <Navbar />
+    <div className="w-full min-h-screen md:px-40 px-0 text-white flex flex-col items-center">
       <ProtectedRoute>
         <div className="md:w-5/12 w-full flex flex-col flex-grow">
           <div className="bg-[#1C1B19]  flex flex-col flex-grow">
